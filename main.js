@@ -105,10 +105,10 @@ const revealObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 /* ═══════════════════════════════════════════════════
-   HERO INGREDIENT ORBIT (home page only)
-   Cards rotate continuously around the drink in a
-   slow elliptical orbit — passing behind it as they
-   cross through center. Click any card to select it.
+   HERO INGREDIENT CAROUSEL (home page only)
+   Cards drift slowly left in an infinite horizontal
+   loop — fanning out on each side of the drink and
+   passing behind it as they cross the centre.
 ═══════════════════════════════════════════════════ */
 
 const flavorData = {
@@ -118,73 +118,78 @@ const flavorData = {
   cinnamon: { name: 'Cinnamon Spice Cold Brew',  price: '$7.50' },
 };
 
-// Orbit radius scales with viewport so cards never clip off-screen
-function getOrbitDims() {
+// Gap between card centres + hide/fade zones — all responsive
+function getCarouselDims() {
   const w = window.innerWidth;
-  if (w < 480) return { rx: 126, ry: 36 };
-  if (w < 768) return { rx: 156, ry: 42 };
-  if (w < 1100) return { rx: 215, ry: 48 };
-  return { rx: 262, ry: 52 };
+  if (w < 480)  return { gap: 88,  hideR: 50, fadeEdge: 152, speed: 10 };
+  if (w < 768)  return { gap: 112, hideR: 58, fadeEdge: 192, speed: 11 };
+  if (w < 1100) return { gap: 150, hideR: 65, fadeEdge: 262, speed: 12 };
+  return               { gap: 190, hideR: 74, fadeEdge: 328, speed: 12 }; // px/s
 }
-
-// ~18-second full orbit — slow and cinematic
-const ORBIT_SPEED = 0.000349; // rad/ms  (2π / 18 000)
-
-// Starting angles: spread cards evenly around the circle.
-// angle=0 → rightmost, π/2 → back, π → leftmost, 3π/2 → front
-const CARD_OFFSETS = [
-  0,              // caramel  → right side on load
-  Math.PI / 2,    // vanilla  → back (passes behind drink)
-  Math.PI,        // hazelnut → left side
-  Math.PI * 1.5,  // cinnamon → front
-];
 
 function initHeroCards() {
   const cards = document.querySelectorAll('.ingredient-card');
   if (!cards.length) return;
 
-  let dims        = getOrbitDims();
-  let startTime   = null;
+  const N = cards.length; // 4
+  let dims        = getCarouselDims();
+  let t0          = null;
   let activeIndex = 0; // caramel starts selected
 
-  // Strip CSS state classes; JS drives all transforms from here
+  // Hand transform control entirely to JS
   cards.forEach(card => {
     card.classList.remove('state-behind', 'state-rest', 'state-active');
     card.style.opacity    = '0';
-    // Keep only non-transform transitions so JS can update transform every frame
-    card.style.transition = 'box-shadow 300ms ease, opacity 700ms ease';
+    card.style.transition = 'box-shadow 300ms ease, opacity 600ms ease';
   });
 
-  // Fade cards in after the page loader clears
+  // Fade in after loader clears
   setTimeout(() => {
     cards.forEach(c => { c.style.opacity = '1'; });
     cards[activeIndex].classList.add('active-glow');
   }, 750);
 
-  /* ── rAF orbit loop ── */
+  /* ── Animation loop ── */
   function tick(ts) {
-    if (!startTime) startTime = ts;
-    const base = (ts - startTime) * ORBIT_SPEED;
+    if (!t0) t0 = ts;
+    const elapsed = (ts - t0) / 1000; // seconds
+    const LOOP    = dims.gap * N;      // total wrap distance (e.g. 760px)
+    const drift   = (elapsed * dims.speed) % LOOP;
 
     cards.forEach((card, i) => {
-      const a    = base + CARD_OFFSETS[i];
-      const cosA = Math.cos(a);
-      const sinA = Math.sin(a);
+      // Evenly-spaced start positions: −1.5g, −0.5g, +0.5g, +1.5g
+      const initX = (i - (N - 1) / 2) * dims.gap;
+      let x = initX - drift;
 
-      // x: left↔right sweep   y: slight depth rise/fall
-      const x = cosA * dims.rx;
-      const y = sinA * dims.ry;
+      // Wrap smoothly into [−LOOP/2, +LOOP/2)
+      x = ((x % LOOP) + LOOP + LOOP / 2) % LOOP - LOOP / 2;
 
-      // sinA: −1 = front-of-orbit, +1 = back-of-orbit (behind drink)
-      // depth 0→1 drives scale and z-index
-      const depth = (sinA + 1) / 2;
-      const scale = 1.0 - depth * 0.15;   // 1.0 (front) → 0.85 (back)
+      const absX = Math.abs(x);
 
-      // Cards in the back half sit under the drink; front half sit above peer cards
-      card.style.zIndex = sinA < 0 ? '8' : '4';
+      // ── Opacity ──
+      // Fade out near drink centre (behind it) and at the far wrap edges
+      const cFade = absX < dims.hideR
+        ? Math.max(0, (absX - dims.hideR * 0.2) / (dims.hideR * 0.8))
+        : 1;
+      const eFade = absX > dims.fadeEdge
+        ? Math.max(0, 1 - (absX - dims.fadeEdge) / (dims.gap * 0.55))
+        : 1;
+      card.style.opacity = (cFade * eFade).toFixed(3);
 
-      // Tilt follows the horizontal arc naturally
-      const tilt = cosA * 9;
+      // ── Z-index: behind drink when crossing centre ──
+      card.style.zIndex = absX < dims.hideR ? '4' : '8';
+
+      // norm: 0 = inner position, 1 = outer/edge
+      const norm = Math.min(absX / dims.fadeEdge, 1);
+
+      // Slight scale: inner cards fractionally larger
+      const scale = 1.0 - norm * 0.11;
+
+      // Tilt: cards lean outward from centre
+      const tilt = -(x / (LOOP / 2)) * 13;
+
+      // Y-arc: outer cards rise slightly, like a gentle fan
+      const y = -(norm * norm) * 28;
 
       card.style.transform = `translate(${x}px, ${y}px) scale(${scale}) rotate(${tilt}deg)`;
     });
@@ -193,11 +198,9 @@ function initHeroCards() {
   }
 
   requestAnimationFrame(tick);
+  window.addEventListener('resize', () => { dims = getCarouselDims(); }, { passive: true });
 
-  // Recalculate on resize
-  window.addEventListener('resize', () => { dims = getOrbitDims(); }, { passive: true });
-
-  /* ── Click: select card + crossfade drink info ── */
+  /* ── Click: highlight card + update drink info ── */
   cards.forEach((card, i) => {
     card.addEventListener('click', () => {
       if (i === activeIndex) return;
