@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pixora Cafe 1 — Specialty Coffee</title>
+  <meta name="description" content="Pixora Cafe 1 — single origin beans, cold foam crafted daily. Order your perfect latte." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- Page Loader -->
+<div class="page-loader" id="pageLoader">
+  <span class="loader-wordmark">Pixora Cafe 1</span>
+</div>
+
+<!-- Custom cursor handled by JS -->
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <a href="index.html" class="nav-brand">Pixora <span>Cafe</span> 1</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li class="nav-cta"><a href="order.html">Order Online</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="cart-btn" aria-label="Cart">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.66a2 2 0 001.99-1.61L23 6H6"/>
+      </svg>
+    </button>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Overlay -->
+<div class="nav-overlay" id="navOverlay">
+  <button class="nav-overlay-close" aria-label="Close menu">✕</button>
+  <ul class="nav-overlay-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li class="nav-cta-overlay"><a href="order.html">Order Online</a></li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-stage">
+
+    <!-- Ingredient cards — z-index 5, always behind drink -->
+    <div class="ingredient-cards-container">
+
+      <div class="ingredient-card card-caramel state-behind" data-flavor="caramel">
+        <div class="card-emoji">🍮</div>
+        <div class="card-label">Caramel</div>
+        <div class="card-sub">Syrup</div>
+      </div>
+
+      <div class="ingredient-card card-vanilla state-behind" data-flavor="vanilla">
+        <div class="card-emoji">🌿</div>
+        <div class="card-label">Vanilla</div>
+        <div class="card-sub">Bean</div>
+      </div>
+
+      <div class="ingredient-card card-hazelnut state-behind" data-flavor="hazelnut">
+        <div class="card-emoji">🌰</div>
+        <div class="card-label">Hazelnut</div>
+        <div class="card-sub">Roasted</div>
+      </div>
+
+      <div class="ingredient-card card-cinnamon state-behind" data-flavor="cinnamon">
+        <div class="card-emoji">✨</div>
+        <div class="card-label">Cinnamon</div>
+        <div class="card-sub">Spice</div>
+      </div>
+
+    </div>
+
+    <!-- Coffee grounds mound — z-index 3 -->
+    <div class="hero-mound"></div>
+
+    <!-- ═══════════════════════════
+         THE DRINK — z-index 10
+         Fixed anchor. Never moves.
+    ════════════════════════════ -->
+    <div class="drink-anchor" id="drinkAnchor">
+      <div class="coffee-cup">
+
+        <!-- Straw -->
+        <div class="cup-straw"></div>
+
+        <!-- Dome lid -->
+        <div class="cup-lid-inner"></div>
+        <div class="cup-lid-outer">
+          <div class="cup-lid-tab"></div>
+        </div>
+
+        <!-- Cup body with drink layers -->
+        <div class="cup-body">
+          <!-- Cold foam top -->
+          <div class="cup-foam">
+            <div class="cup-foam-bubbles"></div>
+          </div>
+          <!-- Espresso shot layer -->
+          <div class="cup-espresso"></div>
+          <!-- Iced milk / latte body -->
+          <div class="cup-milk">
+            <div class="ice-cube ice-1"></div>
+            <div class="ice-cube ice-2"></div>
+            <div class="ice-cube ice-3"></div>
+            <div class="ice-cube ice-4"></div>
+          </div>
+          <!-- Concentrated bottom layer -->
+          <div class="cup-bottom-layer"></div>
+        </div>
+
+        <!-- Glass reflections -->
+        <div class="cup-glare"></div>
+        <div class="cup-glare-r"></div>
+
+      </div>
+    </div>
+    <!-- end drink -->
+
+  </div>
+  <!-- end hero-stage -->
+
+  <!-- Drink info — updates on card selection -->
+  <div class="hero-drink-info">
+    <div class="drink-name-display">Caramel Cold Foam Latte</div>
+    <div class="drink-price-pill">
+      <span class="price-value">$8.50</span>
+      <svg class="price-cart-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.66a2 2 0 001.99-1.61L23 6H6"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Bottom headline -->
+  <h1 class="hero-headline">Choose your perfect latte</h1>
+</section>
+
+<!-- ══════════════════════════════════
+     SIGNATURE DRINKS
+══════════════════════════════════ -->
+<section class="signature-section">
+  <div class="section-wrap">
+    <p class="section-label reveal">Featured</p>
+    <h2 class="section-title reveal">Signature drinks.</h2>
+
+    <div class="drinks-row">
+
+      <div class="drink-card reveal">
+        <div class="drink-card-icon">☕</div>
+        <div class="drink-card-name">Midnight Espresso</div>
+        <p class="drink-card-desc">Triple-pulled Ethiopian single origin over cold foam. Dense, dark, unforgettable.</p>
+        <div class="drink-card-footer">
+          <span class="drink-card-price">$7.50</span>
+          <a href="menu.html" class="drink-card-link">View Menu →</a>
+        </div>
+      </div>
+
+      <div class="drink-card reveal reveal-delay-1">
+        <div class="drink-card-icon">🧋</div>
+        <div class="drink-card-name">Cloud Cold Brew</div>
+        <p class="drink-card-desc">24-hour cold brew steeped in-house, crowned with vanilla sweet cream cloud.</p>
+        <div class="drink-card-footer">
+          <span class="drink-card-price">$8.00</span>
+          <a href="menu.html" class="drink-card-link">View Menu →</a>
+        </div>
+      </div>
+
+      <div class="drink-card reveal reveal-delay-2">
+        <div class="drink-card-icon">🌙</div>
+        <div class="drink-card-name">Dark Caramel Frost</div>
+        <p class="drink-card-desc">Ristretto shots over ice, salted caramel drizzle, cascading cold foam top.</p>
+        <div class="drink-card-footer">
+          <span class="drink-card-price">$9.00</span>
+          <a href="menu.html" class="drink-card-link">View Menu →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     BRAND MOMENT
+══════════════════════════════════ -->
+<section class="brand-moment">
+  <div class="brand-moment-inner">
+    <div class="brand-quote reveal">
+      "Every cup<br><em>tells a story.</em>"
+    </div>
+    <div class="brand-stats">
+      <div class="stat-pill reveal">Single Origin Beans</div>
+      <div class="stat-pill reveal reveal-delay-1">Cold Foam Crafted Daily</div>
+      <div class="stat-pill reveal reveal-delay-2">Est. 2024</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     ORDER CTA
+══════════════════════════════════ -->
+<section class="order-cta-banner">
+  <h2 class="reveal">Ready for your next favorite coffee?</h2>
+  <p class="reveal">Order now on UberEats or DoorDash.</p>
+  <div class="cta-btn-group reveal">
+    <a href="#" class="btn-dark">UberEats →</a>
+    <a href="#" class="btn-dark">DoorDash →</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     FOOTER
+══════════════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Pixora Cafe 1</div>
+      <p class="footer-tagline">Single origin. Cold foam crafted daily.<br>A coffee ritual built for you.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="TikTok">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="X">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round">
+            <path d="M4 4l16 16M20 4L4 20"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Quick Links</div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="order.html">Order Online</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Hours &amp; Location</div>
+      <div class="footer-hours-row"><span>Mon – Fri</span><span>7am – 7pm</span></div>
+      <div class="footer-hours-row"><span>Sat – Sun</span><span>8am – 6pm</span></div>
+      <p class="footer-address">
+        123 Coffee Lane<br>
+        New York, NY 10001<br>
+        hello@pixoracafe.com<br>
+        (000) 000-0000
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copyright">© 2025 Pixora Cafe 1. All rights reserved.</span>
+    <span class="footer-copyright">Crafted with care.</span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
