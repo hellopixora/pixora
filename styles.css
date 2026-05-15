@@ -571,6 +571,14 @@ footer {
     opacity var(--ease-cinematic);
 }
 
+/* Orbit-mode selection glow — JS adds/removes this class on click */
+.ingredient-card.active-glow {
+  box-shadow:
+    0 14px 42px rgba(0,0,0,0.45),
+    0 0 0 2.5px var(--caramel),
+    0 0 36px rgba(198,139,58,0.42);
+}
+
 .card-emoji {
   font-size: 2.4rem;
   line-height: 1;

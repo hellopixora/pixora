@@ -105,7 +105,10 @@ const revealObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 /* ═══════════════════════════════════════════════════
-   HERO INGREDIENT CARD INTERACTION (home page only)
+   HERO INGREDIENT ORBIT (home page only)
+   Cards rotate continuously around the drink in a
+   slow elliptical orbit — passing behind it as they
+   cross through center. Click any card to select it.
 ═══════════════════════════════════════════════════ */
 
 const flavorData = {
@@ -115,90 +118,112 @@ const flavorData = {
   cinnamon: { name: 'Cinnamon Spice Cold Brew',  price: '$7.50' },
 };
 
+// Orbit radius scales with viewport so cards never clip off-screen
+function getOrbitDims() {
+  const w = window.innerWidth;
+  if (w < 480) return { rx: 126, ry: 36 };
+  if (w < 768) return { rx: 156, ry: 42 };
+  if (w < 1100) return { rx: 215, ry: 48 };
+  return { rx: 262, ry: 52 };
+}
+
+// ~18-second full orbit — slow and cinematic
+const ORBIT_SPEED = 0.000349; // rad/ms  (2π / 18 000)
+
+// Starting angles: spread cards evenly around the circle.
+// angle=0 → rightmost, π/2 → back, π → leftmost, 3π/2 → front
+const CARD_OFFSETS = [
+  0,              // caramel  → right side on load
+  Math.PI / 2,    // vanilla  → back (passes behind drink)
+  Math.PI,        // hazelnut → left side
+  Math.PI * 1.5,  // cinnamon → front
+];
+
 function initHeroCards() {
   const cards = document.querySelectorAll('.ingredient-card');
   if (!cards.length) return;
 
-  let activeCard = null;
-  let isAnimating = false;
+  let dims        = getOrbitDims();
+  let startTime   = null;
+  let activeIndex = 0; // caramel starts selected
 
-  /* ─ Initial staggered reveal ─ */
-  cards.forEach((card, i) => {
-    const flavor = card.dataset.flavor;
-    const baseDelay = 650;
-    const stagger = i * 130;
-
-    setTimeout(() => {
-      card.classList.remove('state-behind');
-      if (flavor === 'caramel') {
-        card.classList.add('state-active');
-        activeCard = card;
-      } else {
-        card.classList.add('state-rest');
-      }
-    }, baseDelay + stagger);
+  // Strip CSS state classes; JS drives all transforms from here
+  cards.forEach(card => {
+    card.classList.remove('state-behind', 'state-rest', 'state-active');
+    card.style.opacity    = '0';
+    // Keep only non-transform transitions so JS can update transform every frame
+    card.style.transition = 'box-shadow 300ms ease, opacity 700ms ease';
   });
 
-  /* ─ Click interaction ─ */
-  function switchCard(newCard) {
-    if (!activeCard || newCard === activeCard || isAnimating) return;
-    isAnimating = true;
+  // Fade cards in after the page loader clears
+  setTimeout(() => {
+    cards.forEach(c => { c.style.opacity = '1'; });
+    cards[activeIndex].classList.add('active-glow');
+  }, 750);
 
-    const prev = activeCard;
+  /* ── rAF orbit loop ── */
+  function tick(ts) {
+    if (!startTime) startTime = ts;
+    const base = (ts - startTime) * ORBIT_SPEED;
 
-    // Both cards retreat behind the drink simultaneously
-    prev.classList.remove('state-active');
-    prev.classList.add('state-behind');
+    cards.forEach((card, i) => {
+      const a    = base + CARD_OFFSETS[i];
+      const cosA = Math.cos(a);
+      const sinA = Math.sin(a);
 
-    newCard.classList.remove('state-rest');
-    newCard.classList.add('state-behind');
+      // x: left↔right sweep   y: slight depth rise/fall
+      const x = cosA * dims.rx;
+      const y = sinA * dims.ry;
 
-    // New card emerges as active
-    setTimeout(() => {
-      newCard.classList.remove('state-behind');
-      newCard.classList.add('state-active');
-      activeCard = newCard;
+      // sinA: −1 = front-of-orbit, +1 = back-of-orbit (behind drink)
+      // depth 0→1 drives scale and z-index
+      const depth = (sinA + 1) / 2;
+      const scale = 1.0 - depth * 0.15;   // 1.0 (front) → 0.85 (back)
 
-      updateDrinkInfo(newCard.dataset.flavor);
+      // Cards in the back half sit under the drink; front half sit above peer cards
+      card.style.zIndex = sinA < 0 ? '8' : '4';
 
-      // Previous card returns to resting orbit
-      setTimeout(() => {
-        prev.classList.remove('state-behind');
-        prev.classList.add('state-rest');
-        isAnimating = false;
-      }, 260);
-    }, 420);
+      // Tilt follows the horizontal arc naturally
+      const tilt = cosA * 9;
+
+      card.style.transform = `translate(${x}px, ${y}px) scale(${scale}) rotate(${tilt}deg)`;
+    });
+
+    requestAnimationFrame(tick);
   }
 
-  cards.forEach(card => {
-    card.addEventListener('click', () => switchCard(card));
+  requestAnimationFrame(tick);
+
+  // Recalculate on resize
+  window.addEventListener('resize', () => { dims = getOrbitDims(); }, { passive: true });
+
+  /* ── Click: select card + crossfade drink info ── */
+  cards.forEach((card, i) => {
+    card.addEventListener('click', () => {
+      if (i === activeIndex) return;
+      cards[activeIndex].classList.remove('active-glow');
+      activeIndex = i;
+      card.classList.add('active-glow');
+      updateDrinkInfo(card.dataset.flavor);
+    });
   });
 }
 
 function updateDrinkInfo(flavor) {
-  const data = flavorData[flavor];
+  const data    = flavorData[flavor];
   const nameEl  = document.querySelector('.drink-name-display');
   const priceEl = document.querySelector('.price-value');
-
   if (nameEl) {
     nameEl.style.opacity = '0';
-    setTimeout(() => {
-      nameEl.textContent = data.name;
-      nameEl.style.opacity = '1';
-    }, 190);
+    setTimeout(() => { nameEl.textContent = data.name;  nameEl.style.opacity  = '1'; }, 190);
   }
   if (priceEl) {
     priceEl.style.opacity = '0';
-    setTimeout(() => {
-      priceEl.textContent = data.price;
-      priceEl.style.opacity = '1';
-    }, 190);
+    setTimeout(() => { priceEl.textContent = data.price; priceEl.style.opacity = '1'; }, 190);
   }
 }
 
-// Only init on home page
 if (document.querySelector('.ingredient-card')) {
-  // Wait for loader to start fading
   setTimeout(initHeroCards, 100);
 }
 
