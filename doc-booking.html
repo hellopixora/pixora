@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Booking — Pixora Doc 1</title>
+  <link rel="stylesheet" href="healthcare.css" />
+</head>
+<body class="booking-page">
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="doc-home.html" class="nav-logo"><div class="nav-logo-icon">P</div>Pixora Doc 1</a>
+    <div class="nav-links">
+      <a href="doc-home.html">Home</a>
+      <a href="doc-booking.html" class="active">Book Appointment</a>
+      <a href="doc-dashboard.html">My Health</a>
+      <a href="doc-records.html">Records</a>
+      <a href="doc-chat.html">SecureChat</a>
+    </div>
+    <div class="nav-cta"><span class="nav-badge">HIPAA Secure</span></div>
+    <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="doc-home.html">Home</a><a href="doc-booking.html" class="active">Book Appointment</a><a href="doc-dashboard.html">My Health</a><a href="doc-records.html">Records</a><a href="doc-chat.html">SecureChat</a>
+</div>
+<div class="booking-header">
+  <div class="container">
+    <div class="hipaa-strip" style="margin-bottom:16px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Your booking is HIPAA-protected. We never share your health information.</div>
+    <h1>Schedule Your Visit</h1>
+    <p>Book an appointment in under 2 minutes — in-person or telehealth.</p>
+  </div>
+</div>
+<div class="container">
+  <div class="booking-layout">
+    <div>
+      <div class="booking-steps" id="stepsIndicator">
+        <div class="step-item"><div class="step-circle active" id="circle-1">1</div><div class="step-line" id="line-1"></div></div>
+        <div class="step-item"><div class="step-circle" id="circle-2">2</div><div class="step-line" id="line-2"></div></div>
+        <div class="step-item"><div class="step-circle" id="circle-3">3</div><div class="step-line" id="line-3"></div></div>
+        <div class="step-item"><div class="step-circle" id="circle-4">4</div><div class="step-line" id="line-4"></div></div>
+        <div class="step-item"><div class="step-circle" id="circle-5">5</div></div>
+      </div>
+      <div class="step-panel active" id="step-1">
+        <div class="booking-card">
+          <h3><span style="width:28px;height:28px;background:var(--teal);color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-family:var(--font-sans);">1</span>Choose your doctor</h3>
+          <div class="doc-select-grid">
+            <div class="doc-select-card" onclick="selectDoctor(this,'Dr. Sarah Rahman','Internal Medicine')"><div class="doc-select-avatar" style="background:linear-gradient(135deg,#1b4332,#2d6a4f);">SR</div><div><div class="doc-select-name">Dr. Sarah Rahman</div><div class="doc-select-spec">Internal Medicine</div><div class="doc-select-avail">● Available today</div></div></div>
+            <div class="doc-select-card" onclick="selectDoctor(this,'Dr. Kaveh Patel','Cardiology')"><div class="doc-select-avatar" style="background:linear-gradient(135deg,#1e3a5f,#2d5986);">KP</div><div><div class="doc-select-name">Dr. Kaveh Patel</div><div class="doc-select-spec">Cardiology</div><div class="doc-select-avail">● Available Thu</div></div></div>
+            <div class="doc-select-card" onclick="selectDoctor(this,'Dr. Maya Chen','Neurology')"><div class="doc-select-avatar" style="background:linear-gradient(135deg,#4a1942,#7b2d7b);">MC</div><div><div class="doc-select-name">Dr. Maya Chen</div><div class="doc-select-spec">Neurology</div><div class="doc-select-avail">● Available Wed</div></div></div>
+            <div class="doc-select-card" onclick="selectDoctor(this,'Dr. James Okonkwo','Orthopedics')"><div class="doc-select-avatar" style="background:linear-gradient(135deg,#1a3a2a,#2e6b4f);">JO</div><div><div class="doc-select-name">Dr. James Okonkwo</div><div class="doc-select-spec">Orthopedics</div><div class="doc-select-avail">● Available Mon</div></div></div>
+            <div class="doc-select-card" onclick="selectDoctor(this,'Dr. Priya Nair','Dermatology')"><div class="doc-select-avatar" style="background:linear-gradient(135deg,#3b1f6a,#6d4a9e);">PN</div><div><div class="doc-select-name">Dr. Priya Nair</div><div class="doc-select-spec">Dermatology</div><div class="doc-select-avail">● Available Fri</div></div></div>
+            <div class="doc-select-card" onclick="selectDoctor(this,'Dr. Luis Torres','Family Medicine')"><div class="doc-select-avatar" style="background:linear-gradient(135deg,#4a2e1a,#8b5c2a);">LT</div><div><div class="doc-select-name">Dr. Luis Torres</div><div class="doc-select-spec">Family Medicine</div><div class="doc-select-avail">● Available today</div></div></div>
+          </div>
+        </div>
+        <div class="booking-nav-btns"><button class="btn btn-primary" onclick="nextStep(2)" id="step1-next" disabled>Next: Select Date →</button></div>
+      </div>
+      <div class="step-panel" id="step-2">
+        <div class="booking-card">
+          <h3><span style="width:28px;height:28px;background:var(--teal);color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-family:var(--font-sans);">2</span>Pick a date</h3>
+          <div class="calendar-strip" id="calendarStrip"></div>
+        </div>
+        <div class="booking-nav-btns"><button class="btn btn-outline-teal" onclick="nextStep(1)">← Back</button><button class="btn btn-primary" onclick="nextStep(3)" id="step2-next" disabled>Next: Pick Time →</button></div>
+      </div>
+      <div class="step-panel" id="step-3">
+        <div class="booking-card">
+          <h3><span style="width:28px;height:28px;background:var(--teal);color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-family:var(--font-sans);">3</span>Select a time slot</h3>
+          <p style="font-size:14px;color:var(--text-secondary);margin-bottom:20px;">Times shown in your local timezone.</p>
+          <div class="time-grid" id="timeGrid">
+            <div class="time-slot" onclick="selectTime(this,'8:00 AM')">8:00 AM</div>
+            <div class="time-slot" onclick="selectTime(this,'8:30 AM')">8:30 AM</div>
+            <div class="time-slot unavailable">9:00 AM</div>
+            <div class="time-slot" onclick="selectTime(this,'9:30 AM')">9:30 AM</div>
+            <div class="time-slot unavailable">10:00 AM</div>
+            <div class="time-slot" onclick="selectTime(this,'10:30 AM')">10:30 AM</div>
+            <div class="time-slot" onclick="selectTime(this,'11:00 AM')">11:00 AM</div>
+            <div class="time-slot unavailable">11:30 AM</div>
+            <div class="time-slot" onclick="selectTime(this,'1:00 PM')">1:00 PM</div>
+            <div class="time-slot" onclick="selectTime(this,'1:30 PM')">1:30 PM</div>
+            <div class="time-slot unavailable">2:00 PM</div>
+            <div class="time-slot" onclick="selectTime(this,'2:30 PM')">2:30 PM</div>
+            <div class="time-slot" onclick="selectTime(this,'3:00 PM')">3:00 PM</div>
+            <div class="time-slot unavailable">3:30 PM</div>
+            <div class="time-slot" onclick="selectTime(this,'4:00 PM')">4:00 PM</div>
+            <div class="time-slot" onclick="selectTime(this,'4:30 PM')">4:30 PM</div>
+          </div>
+        </div>
+        <div class="booking-nav-btns"><button class="btn btn-outline-teal" onclick="nextStep(2)">← Back</button><button class="btn btn-primary" onclick="nextStep(4)" id="step3-next" disabled>Next: Visit Type →</button></div>
+      </div>
+      <div class="step-panel" id="step-4">
+        <div class="booking-card">
+          <h3><span style="width:28px;height:28px;background:var(--teal);color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-family:var(--font-sans);">4</span>How would you like to meet?</h3>
+          <div class="visit-type-row">
+            <div class="visit-type-card" onclick="selectVisitType(this,'In-Person')"><div class="visit-type-icon">🏥</div><div class="visit-type-name">In-Person Visit</div><div class="visit-type-desc">Come to our clinic at 240 Wellness Ave. Parking validated. Masks optional.</div></div>
+            <div class="visit-type-card" onclick="selectVisitType(this,'Telehealth')"><div class="visit-type-icon">🎥</div><div class="visit-type-name">Telehealth Visit</div><div class="visit-type-desc">Join from anywhere via browser. HD video, HIPAA-secure. No app download needed.</div></div>
+          </div>
+          <div class="hipaa-strip mt-6"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Both visit types are HIPAA-compliant and covered by most insurance plans.</div>
+        </div>
+        <div class="booking-nav-btns"><button class="btn btn-outline-teal" onclick="nextStep(3)">← Back</button><button class="btn btn-primary" onclick="nextStep(5)" id="step4-next" disabled>Review &amp; Confirm →</button></div>
+      </div>
+      <div class="step-panel" id="step-5">
+        <div class="booking-card" id="reviewCard">
+          <h3><span style="width:28px;height:28px;background:var(--teal);color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-family:var(--font-sans);">5</span>Review your appointment</h3>
+          <div style="background:var(--cream);border-radius:var(--radius-lg);padding:24px;margin-bottom:24px;">
+            <div class="summary-row"><span class="summary-label">Doctor</span><span class="summary-value" id="r-doctor">—</span></div>
+            <div class="summary-row"><span class="summary-label">Specialty</span><span class="summary-value" id="r-spec">—</span></div>
+            <div class="summary-row"><span class="summary-label">Date</span><span class="summary-value" id="r-date">—</span></div>
+            <div class="summary-row"><span class="summary-label">Time</span><span class="summary-value" id="r-time">—</span></div>
+            <div class="summary-row"><span class="summary-label">Visit Type</span><span class="summary-value" id="r-type">—</span></div>
+          </div>
+          <div style="margin-bottom:20px;"><label style="display:block;font-size:14px;font-weight:600;color:var(--navy);margin-bottom:8px;">Reason for visit <span style="font-weight:400;color:var(--text-muted)">(optional)</span></label><textarea id="visitReason" rows="3" style="width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:var(--radius-md);font-size:14px;resize:none;" placeholder="Brief description of your concern..." onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'"></textarea></div>
+          <div class="hipaa-strip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Your information is encrypted and only shared with your care team. HIPAA §164.</div>
+        </div>
+        <div class="booking-success" id="bookingSuccess">
+          <div class="success-icon">✓</div>
+          <div class="success-title">Appointment Confirmed!</div>
+          <div class="success-sub">You'll receive a confirmation email with all the details.</div>
+          <div class="success-details">
+            <div class="summary-row"><span class="summary-label">Doctor</span><span class="summary-value" id="s-doctor">—</span></div>
+            <div class="summary-row"><span class="summary-label">Date &amp; Time</span><span class="summary-value" id="s-datetime">—</span></div>
+            <div class="summary-row"><span class="summary-label">Visit Type</span><span class="summary-value" id="s-type">—</span></div>
+          </div>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <button class="btn btn-outline-teal" onclick="addToCalendar()">📅 Add to Calendar</button>
+            <a href="doc-dashboard.html" class="btn btn-primary">Go to Dashboard →</a>
+          </div>
+        </div>
+        <div class="booking-nav-btns" id="reviewBtns">
+          <button class="btn btn-outline-teal" onclick="nextStep(4)">← Back</button>
+          <button class="btn btn-primary btn-lg" onclick="confirmBooking()">Confirm Appointment ✓</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="booking-summary">
+        <div class="summary-title">Booking Summary</div>
+        <div class="summary-row"><span class="summary-label">Doctor</span><span class="summary-value placeholder" id="sum-doctor">Not selected</span></div>
+        <div class="summary-row"><span class="summary-label">Specialty</span><span class="summary-value placeholder" id="sum-spec">—</span></div>
+        <div class="summary-divider"></div>
+        <div class="summary-row"><span class="summary-label">Date</span><span class="summary-value placeholder" id="sum-date">Not selected</span></div>
+        <div class="summary-row"><span class="summary-label">Time</span><span class="summary-value placeholder" id="sum-time">Not selected</span></div>
+        <div class="summary-divider"></div>
+        <div class="summary-row"><span class="summary-label">Visit Type</span><span class="summary-value placeholder" id="sum-type">Not selected</span></div>
+        <div class="summary-hipaa"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>All bookings are HIPAA-protected. We never sell or share your data.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="footer" style="margin-top:0;"><div class="footer-bottom" style="padding-top:24px;"><div class="footer-copy">© 2026 Pixora Doc 1. All rights reserved.</div><div class="hipaa-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>HIPAA Compliant</div></div></footer>
+<script>
+  let state = { doctor: '', spec: '', date: '', time: '', type: '' };
+  let currentStep = 1;
+  function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+  function nextStep(n) {
+    document.getElementById('step-' + currentStep).classList.remove('active');
+    document.getElementById('circle-' + currentStep).classList.remove('active');
+    document.getElementById('circle-' + currentStep).classList.add('done');
+    document.getElementById('circle-' + currentStep).innerHTML = '✓';
+    if (currentStep < 5) document.getElementById('line-' + currentStep).classList.add('done');
+    currentStep = n;
+    document.getElementById('step-' + n).classList.add('active');
+    document.getElementById('circle-' + n).classList.add('active');
+    document.getElementById('circle-' + n).classList.remove('done');
+    document.getElementById('circle-' + n).innerHTML = n;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (n === 5) populateReview();
+  }
+  function selectDoctor(el, name, spec) {
+    document.querySelectorAll('.doc-select-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected'); state.doctor = name; state.spec = spec;
+    document.getElementById('step1-next').disabled = false; updateSummary();
+  }
+  function updateSummary() {
+    const set = (id, val) => { const el = document.getElementById(id); if (val) { el.textContent = val; el.classList.remove('placeholder'); } else { el.classList.add('placeholder'); } };
+    set('sum-doctor', state.doctor || null); set('sum-spec', state.spec || null); set('sum-date', state.date || null); set('sum-time', state.time || null); set('sum-type', state.type || null);
+  }
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function buildCalendar() {
+    const strip = document.getElementById('calendarStrip');
+    const today = new Date();
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(today); d.setDate(today.getDate() + i);
+      const label = i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : days[d.getDay()];
+      const dateStr = months[d.getMonth()] + ' ' + d.getDate();
+      const div = document.createElement('div');
+      div.className = 'cal-day' + (i === 0 ? ' today' : '');
+      div.innerHTML = '<div class="cal-day-name">' + label + '</div><div class="cal-date">' + d.getDate() + '</div><div class="cal-avail">' + (i === 0 || i === 2 || i === 4 ? '6 open' : i === 1 || i === 3 ? '3 open' : '2 open') + '</div>';
+      div.onclick = () => { document.querySelectorAll('.cal-day').forEach(c => c.classList.remove('selected')); div.classList.add('selected'); state.date = dateStr; document.getElementById('step2-next').disabled = false; updateSummary(); };
+      strip.appendChild(div);
+    }
+  }
+  buildCalendar();
+  function selectTime(el, t) { document.querySelectorAll('.time-slot:not(.unavailable)').forEach(s => s.classList.remove('selected')); el.classList.add('selected'); state.time = t; document.getElementById('step3-next').disabled = false; updateSummary(); }
+  function selectVisitType(el, type) { document.querySelectorAll('.visit-type-card').forEach(c => c.classList.remove('selected')); el.classList.add('selected'); state.type = type; document.getElementById('step4-next').disabled = false; updateSummary(); }
+  function populateReview() { document.getElementById('r-doctor').textContent = state.doctor; document.getElementById('r-spec').textContent = state.spec; document.getElementById('r-date').textContent = state.date; document.getElementById('r-time').textContent = state.time; document.getElementById('r-type').textContent = state.type; }
+  function confirmBooking() {
+    document.getElementById('reviewCard').style.display = 'none'; document.getElementById('reviewBtns').style.display = 'none';
+    const success = document.getElementById('bookingSuccess'); success.style.display = 'block';
+    document.getElementById('s-doctor').textContent = state.doctor; document.getElementById('s-datetime').textContent = state.date + ' at ' + state.time; document.getElementById('s-type').textContent = state.type;
+  }
+  function addToCalendar() { alert('📅 Calendar invite created! In a production app, this would download an .ics file or open Google Calendar.'); }
+</script>
+</body>
+</html>

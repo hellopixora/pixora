@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Health Dashboard — Pixora Doc 1</title>
+  <link rel="stylesheet" href="healthcare.css" />
+</head>
+<body class="dashboard-page">
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="doc-home.html" class="nav-logo"><div class="nav-logo-icon">P</div>Pixora Doc 1</a>
+    <div class="nav-links">
+      <a href="doc-home.html">Home</a><a href="doc-booking.html">Book Appointment</a><a href="doc-dashboard.html" class="active">My Health</a><a href="doc-records.html">Records</a><a href="doc-chat.html">SecureChat</a>
+    </div>
+    <div class="nav-cta"><span class="nav-badge">HIPAA Secure</span></div>
+    <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="doc-home.html">Home</a><a href="doc-booking.html">Book Appointment</a><a href="doc-dashboard.html" class="active">My Health</a><a href="doc-records.html">Records</a><a href="doc-chat.html">SecureChat</a>
+</div>
+<div class="dashboard-header">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;">
+      <div class="dashboard-greeting">
+        <div class="hipaa-strip" style="margin-bottom:14px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>All data encrypted · HIPAA compliant · Last synced just now</div>
+        <h1>Good morning, Alex.</h1>
+        <p>Here’s your health overview for today — May 18, 2026.</p>
+        <div class="health-status-badge">Overall Health: Good</div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-self:flex-end;">
+        <a href="doc-booking.html" class="btn btn-ghost btn-sm">+ Book Visit</a>
+        <a href="doc-chat.html" class="btn btn-primary btn-sm">Message Care Team</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="dashboard-body">
+  <div class="container">
+    <div style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+      <h2 style="font-size:20px;color:var(--navy);">Your Vitals</h2>
+      <span style="font-size:13px;color:var(--text-muted);">Updated today at 7:42 AM</span>
+    </div>
+    <div class="vitals-grid">
+      <div class="vital-card normal">
+        <div class="vital-header"><div class="vital-label">❤️ Heart Rate</div><div class="vital-trend stable">→ Stable</div></div>
+        <div class="vital-value" id="hrVal">72</div>
+        <div class="vital-unit">beats per minute</div>
+        <div class="vital-status normal">● Normal range (60–100 bpm)</div>
+      </div>
+      <div class="vital-card normal">
+        <div class="vital-header"><div class="vital-label">🩸 Blood Pressure</div><div class="vital-trend down">↓ Improving</div></div>
+        <div class="vital-value" style="font-size:28px;">118<span style="font-size:18px;font-weight:400;">/76</span></div>
+        <div class="vital-unit">mmHg systolic / diastolic</div>
+        <div class="vital-status normal">● Optimal range</div>
+      </div>
+      <div class="vital-card warning">
+        <div class="vital-header"><div class="vital-label">🩹 Blood Glucose</div><div class="vital-trend up">↑ Elevated</div></div>
+        <div class="vital-value">114</div>
+        <div class="vital-unit">mg/dL (fasting)</div>
+        <div class="vital-status warning">⚠ Slightly elevated · monitor closely</div>
+      </div>
+      <div class="vital-card normal">
+        <div class="vital-header"><div class="vital-label">⚖️ BMI</div><div class="vital-trend stable">→ Stable</div></div>
+        <div class="vital-value">23.4</div>
+        <div class="vital-unit">kg/m² · 5’10” · 163 lbs</div>
+        <div class="vital-status normal">● Healthy weight range</div>
+      </div>
+    </div>
+    <div class="dashboard-grid">
+      <div class="appt-card">
+        <div class="appt-card-title">Upcoming Appointments<a href="doc-booking.html" class="btn btn-outline-teal btn-sm">+ Book new</a></div>
+        <div class="appt-item"><div class="appt-date-box"><div class="appt-month">MAY</div><div class="appt-day">21</div></div><div class="appt-info"><div class="appt-doctor">Dr. Sarah Rahman</div><div class="appt-type">Internal Medicine</div><div class="appt-time">10:30 AM · Telehealth</div></div><button class="btn btn-primary btn-sm" onclick="joinCall()">🎥 Join</button></div>
+        <div class="appt-item"><div class="appt-date-box"><div class="appt-month">JUN</div><div class="appt-day">3</div></div><div class="appt-info"><div class="appt-doctor">Dr. Kaveh Patel</div><div class="appt-type">Cardiology — Annual Review</div><div class="appt-time">2:00 PM · In-Person</div></div><span class="badge badge-blue">In-Person</span></div>
+        <div class="appt-item"><div class="appt-date-box"><div class="appt-month">JUN</div><div class="appt-day">17</div></div><div class="appt-info"><div class="appt-doctor">Dr. Maya Chen</div><div class="appt-type">Neurology — Follow-up</div><div class="appt-time">11:00 AM · Telehealth</div></div><span class="badge badge-teal">Telehealth</span></div>
+      </div>
+      <div class="appt-card">
+        <div class="appt-card-title">Recent Activity</div>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-dot lab">🧪</div><div class="timeline-content"><div class="timeline-title">CBC Lab Results Uploaded</div><div class="timeline-desc">Complete blood count — all values within normal range.</div><div class="timeline-date">May 16, 2026 · Dr. Rahman</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot rx">💊</div><div class="timeline-content"><div class="timeline-title">Lisinopril 10mg Refill Approved</div><div class="timeline-desc">Sent to Walgreens on Main St. Ready for pickup.</div><div class="timeline-date">May 14, 2026 · Dr. Rahman</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot visit">📋</div><div class="timeline-content"><div class="timeline-title">Telehealth Visit Summary</div><div class="timeline-desc">Reviewed blood pressure management plan. Continue current medication dosage.</div><div class="timeline-date">May 10, 2026 · Dr. Rahman</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot lab">🧪</div><div class="timeline-content"><div class="timeline-title">HbA1c Results — 5.8%</div><div class="timeline-desc">Slightly elevated. Dietary changes recommended. Follow-up in 90 days.</div><div class="timeline-date">Apr 28, 2026 · Dr. Patel</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot visit">📋</div><div class="timeline-content"><div class="timeline-title">Annual Physical — Complete</div><div class="timeline-desc">All major screenings completed. Flu shot administered. Next annual: May 2027.</div><div class="timeline-date">Apr 5, 2026 · Dr. Rahman</div></div></div>
+        </div>
+      </div>
+    </div>
+    <h2 style="font-size:20px;color:var(--navy);margin-bottom:16px;">Quick Actions</h2>
+    <div class="quick-actions">
+      <div class="quick-action" onclick="showToast('Refill request sent to Dr. Rahman')"><div class="qa-icon teal">💊</div><div class="qa-label">Request Refill</div></div>
+      <div class="quick-action" onclick="window.location.href='doc-chat.html'"><div class="qa-icon blue">💬</div><div class="qa-label">Message Doctor</div></div>
+      <div class="quick-action" onclick="window.location.href='doc-records.html'"><div class="qa-icon green">📄</div><div class="qa-label">Download Records</div></div>
+      <div class="quick-action" onclick="window.location.href='doc-booking.html'"><div class="qa-icon purple">📅</div><div class="qa-label">Book Follow-Up</div></div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:20px 24px;display:flex;align-items:center;gap:16px;margin-top:8px;flex-wrap:wrap;">
+      <div style="font-size:24px;">🔒</div>
+      <div style="flex:1;"><div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;">Your data is always yours</div><div style="font-size:13px;color:var(--text-secondary);">All health data on this dashboard is encrypted with AES-256 and stored under HIPAA §164 security standards. Only you and your authorized care team can access it.</div></div>
+      <a href="doc-records.html" class="btn btn-outline-teal btn-sm">Manage data →</a>
+    </div>
+  </div>
+</div>
+<div id="toast" style="position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:#fff;padding:14px 24px;border-radius:var(--radius-md);font-size:14px;font-weight:600;box-shadow:var(--shadow-lg);transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);z-index:9999;pointer-events:none;border-left:4px solid var(--teal);">✓ Refill request sent</div>
+<footer class="footer" style="margin-top:0;"><div class="footer-bottom" style="padding-top:24px;"><div class="footer-copy">© 2026 Pixora Doc 1. All rights reserved.</div><div class="hipaa-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>HIPAA Compliant · AES-256 Encrypted</div></div></footer>
+<script>
+  function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+  function joinCall() { alert('🎥 Launching secure telehealth session...\n\nIn production, this opens the HIPAA-encrypted video call with Dr. Sarah Rahman.'); }
+  function showToast(msg) { const t = document.getElementById('toast'); t.textContent = '✓ ' + msg; t.style.transform = 'translateX(-50%) translateY(0)'; setTimeout(() => { t.style.transform = 'translateX(-50%) translateY(80px)'; }, 3200); }
+  function animateHR() { const el = document.getElementById('hrVal'); const base = 72; setInterval(() => { el.textContent = base + Math.floor(Math.random() * 5) - 2; }, 3000); }
+  animateHR();
+</script>
+</body>
+</html>
