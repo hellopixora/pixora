@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecureChat — Pixora Doc 1</title>
+  <link rel="stylesheet" href="healthcare.css" />
+  <style>
+    body { overflow: hidden; }
+    @media (max-width: 768px) { body { overflow: auto; } .chat-container { height: auto; min-height: calc(100vh - 68px); } }
+  </style>
+</head>
+<body class="chat-page">
+
+<!-- ─── Navigation ─── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="doc-home.html" class="nav-logo">
+      <div class="nav-logo-icon">P</div>
+      Pixora Doc 1
+    </a>
+    <div class="nav-links">
+      <a href="doc-home.html">Home</a>
+      <a href="doc-booking.html">Book Appointment</a>
+      <a href="doc-dashboard.html">My Health</a>
+      <a href="doc-records.html">Records</a>
+      <a href="doc-chat.html" class="active">SecureChat</a>
+    </div>
+    <div class="nav-cta">
+      <span class="nav-badge">End-to-End Encrypted</span>
+    </div>
+    <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu" style="position:absolute;">
+  <a href="doc-home.html">Home</a>
+  <a href="doc-booking.html">Book Appointment</a>
+  <a href="doc-dashboard.html">My Health</a>
+  <a href="doc-records.html">Records</a>
+  <a href="doc-chat.html" class="active">SecureChat</a>
+</div>
+
+<!-- ─── Chat Layout ─── -->
+<div class="chat-container">
+
+  <!-- Left: Care Team Panel -->
+  <div class="care-panel">
+    <div class="care-panel-header">
+      <h3>Your Care Team</h3>
+      <div class="care-search">
+        <span class="care-search-icon">🔍</span>
+        <input type="text" placeholder="Search team..." onkeyup="filterTeam(this.value)" />
+      </div>
+    </div>
+
+    <div class="care-list" id="careList">
+
+      <div class="care-member active" onclick="switchThread('Dr. Sarah Rahman', 'SR', 'Internal Medicine', 'Responds within 4 hours', true)" data-name="dr sarah rahman internal medicine">
+        <div class="care-avatar" style="background:linear-gradient(135deg,#1b4332,#2d6a4f);">
+          SR
+          <span class="online-dot"></span>
+        </div>
+        <div class="care-info">
+          <div class="care-name">Dr. Sarah Rahman</div>
+          <div class="care-role">Internal Medicine</div>
+          <div class="care-preview">Lab results look good overall...</div>
+        </div>
+        <div class="care-unread">2</div>
+      </div>
+
+      <div class="care-member" onclick="switchThread('Dr. Kaveh Patel', 'KP', 'Cardiology', 'Responds within 6 hours', false)" data-name="dr kaveh patel cardiology">
+        <div class="care-avatar" style="background:linear-gradient(135deg,#1e3a5f,#2d5986);">KP</div>
+        <div class="care-info">
+          <div class="care-name">Dr. Kaveh Patel</div>
+          <div class="care-role">Cardiology</div>
+          <div class="care-preview">Your EKG results are normal</div>
+        </div>
+      </div>
+
+      <div class="care-member" onclick="switchThread('Nurse Jamie Liu', 'JL', 'Registered Nurse', 'Online now', true)" data-name="nurse jamie liu registered nurse">
+        <div class="care-avatar" style="background:linear-gradient(135deg,#3b1f6a,#6d4a9e);">
+          JL
+          <span class="online-dot"></span>
+        </div>
+        <div class="care-info">
+          <div class="care-name">Nurse Jamie Liu</div>
+          <div class="care-role">Registered Nurse</div>
+          <div class="care-preview">Here to help with any questions</div>
+        </div>
+        <div class="care-unread">1</div>
+      </div>
+
+      <div class="care-member" onclick="switchThread('Front Desk', 'FD', 'Scheduling & Admin', 'Available M-F 8–5', false)" data-name="front desk scheduling admin">
+        <div class="care-avatar" style="background:linear-gradient(135deg,#1a3a2a,#2e6b4f);">FD</div>
+        <div class="care-info">
+          <div class="care-name">Front Desk</div>
+          <div class="care-role">Scheduling & Admin</div>
+          <div class="care-preview">Your appointment is confirmed</div>
+        </div>
+      </div>
+
+      <div class="care-member" onclick="switchThread('Dr. Maya Chen', 'MC', 'Neurology', 'Responds within 8 hours', false)" data-name="dr maya chen neurology">
+        <div class="care-avatar" style="background:linear-gradient(135deg,#4a1942,#7b2d7b);">MC</div>
+        <div class="care-info">
+          <div class="care-name">Dr. Maya Chen</div>
+          <div class="care-role">Neurology</div>
+          <div class="care-preview">Follow-up scheduled for June 17</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Right: Chat Thread -->
+  <div class="chat-thread">
+
+    <!-- Thread Header -->
+    <div class="chat-thread-header">
+      <div class="chat-thread-avatar" id="threadAvatar" style="background:linear-gradient(135deg,#1b4332,#2d6a4f);">SR</div>
+      <div style="flex:1;">
+        <div class="chat-thread-name" id="threadName">Dr. Sarah Rahman</div>
+        <div class="chat-thread-status">
+          Internal Medicine &nbsp;·&nbsp;
+          <span class="response-time">⏱ Responds within 4 hours</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <div class="hipaa-strip" style="font-size:11px;padding:7px 12px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          End-to-end encrypted
+        </div>
+        <a href="doc-booking.html" class="btn btn-outline-teal btn-sm">📅 Book Visit</a>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-messages" id="chatMessages">
+
+      <div class="chat-date-divider"><span>May 14, 2026</span></div>
+
+      <div class="chat-msg incoming">
+        <div class="msg-avatar" style="background:linear-gradient(135deg,#1b4332,#2d6a4f);">SR</div>
+        <div>
+          <div class="msg-bubble">
+            <div class="msg-text">Hi Alex! I've reviewed your CBC results from this morning. Everything is looking good — your white and red blood cell counts are right where we want them.</div>
+          </div>
+          <div class="msg-time">10:14 AM</div>
+        </div>
+      </div>
+
+      <div class="chat-msg incoming">
+        <div class="msg-avatar" style="background:linear-gradient(135deg,#1b4332,#2d6a4f);">SR</div>
+        <div>
+          <div class="msg-bubble">
+            <div class="msg-text">One thing worth noting: your HbA1c came back at 5.8%, which is just slightly above the ideal range. I'd recommend cutting back on refined sugars and increasing fiber. Nothing alarming, just worth monitoring.</div>
+          </div>
+          <div class="msg-time">10:15 AM</div>
+        </div>
+      </div>
+
+      <div class="chat-msg outgoing">
+        <div>
+          <div class="msg-bubble">
+            <div class="msg-text">Thanks, Dr. Rahman! That's reassuring. Should I be worried about the blood sugar number? I've been eating a bit differently lately.</div>
+          </div>
+          <div class="msg-time">10:32 AM · Read ✓✓</div>
+        </div>
+      </div>
+
+      <div class="chat-msg incoming">
+        <div class="msg-avatar" style="background:linear-gradient(135deg,#1b4332,#2d6a4f);">SR</div>
+        <div>
+          <div class="msg-bubble">
+            <div class="msg-text">Not worried at all — pre-diabetic threshold is 6.5%, so you're well below that. Think of this as an early nudge. Small changes now make a big difference. I'd suggest adding more leafy greens, lean protein, and cutting sugary drinks.</div>
+          </div>
+          <div class="msg-time">10:48 AM</div>
+        </div>
+      </div>
+
+      <div class="chat-msg outgoing">
+        <div>
+          <div class="msg-bubble">
+            <div class="msg-text">That makes sense. I'll give it a try. Also — should I be refilling my Lisinopril? I'm running low.</div>
+          </div>
+          <div class="msg-time">11:02 AM · Read ✓✓</div>
+        </div>
+      </div>
+
+      <div class="chat-msg incoming">
+        <div class="msg-avatar" style="background:linear-gradient(135deg,#1b4332,#2d6a4f);">SR</div>
+        <div>
+          <div class="msg-bubble">
+            <div class="msg-text">Yes, absolutely. I've already sent a 30-day refill to Walgreens on Main Street. It should be ready by this afternoon. You can also manage refills right from your dashboard — just hit "Request Refill" and it goes straight to me for approval.</div>
+          </div>
+          <div class="msg-time">11:09 AM</div>
+        </div>
+      </div>
+
+      <div class="chat-date-divider"><span>Today — May 18, 2026</span></div>
+
+      <div class="chat-msg incoming" id="lastIncoming">
+        <div class="msg-avatar" style="background:linear-gradient(135deg,#1b4332,#2d6a4f);">SR</div>
+        <div>
+          <div class="msg-bubble">
+            <div class="msg-text">Good morning, Alex! Just a reminder — your telehealth visit is on Wednesday, May 21 at 10:30 AM. You'll get a link 15 minutes before. Let me know if you need to reschedule or have any questions before then. 😊</div>
+          </div>
+          <div class="msg-time">8:03 AM</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Input Bar -->
+    <div class="chat-input-bar">
+      <input type="file" id="fileInput" style="display:none;" onchange="handleAttachment(this)" accept="image/*,.pdf,.doc,.docx" />
+      <button class="chat-attach-btn" onclick="document.getElementById('fileInput').click()" title="Attach a file or photo">📎</button>
+      <div class="chat-input-wrap">
+        <textarea class="chat-input" id="msgInput" rows="1" placeholder="Message Dr. Sarah Rahman..." onkeydown="handleEnter(event)" oninput="autoResize(this)"></textarea>
+      </div>
+      <button class="chat-send-btn" onclick="sendMessage()" title="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  function toggleMobileMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  function handleEnter(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('msgInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const messages = document.getElementById('chatMessages');
+    const now = new Date();
+    const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+    const msg = document.createElement('div');
+    msg.className = 'chat-msg outgoing';
+    msg.innerHTML = `
+      <div>
+        <div class="msg-bubble"><div class="msg-text">${escapeHtml(text)}</div></div>
+        <div class="msg-time">${time} · Sent</div>
+      </div>`;
+    messages.appendChild(msg);
+    input.value = '';
+    input.style.height = 'auto';
+    messages.scrollTop = messages.scrollHeight;
+
+    // Simulate doctor typing + reply
+    setTimeout(() => {
+      const typing = document.createElement('div');
+      typing.className = 'chat-msg incoming';
+      typing.id = 'typingIndicator';
+      typing.innerHTML = `
+        <div class="msg-avatar" style="background:linear-gradient(135deg,#1b4332,#2d6a4f);">${document.getElementById('threadAvatar').textContent}</div>
+        <div>
+          <div class="msg-bubble" style="padding:14px 18px;">
+            <div style="display:flex;gap:5px;align-items:center;">
+              <span style="width:7px;height:7px;background:var(--text-muted);border-radius:50%;animation:bounce 1s infinite;"></span>
+              <span style="width:7px;height:7px;background:var(--text-muted);border-radius:50%;animation:bounce 1s 0.2s infinite;"></span>
+              <span style="width:7px;height:7px;background:var(--text-muted);border-radius:50%;animation:bounce 1s 0.4s infinite;"></span>
+            </div>
+          </div>
+        </div>`;
+      messages.appendChild(typing);
+      messages.scrollTop = messages.scrollHeight;
+
+      const replies = [
+        "Thanks for your message! I'll review this and get back to you shortly. Remember, for urgent concerns please call 911 or our nurse line.",
+        "Got it! I'll take a look at that and follow up during your next visit or sooner if needed.",
+        "Great question. I'm reviewing your records now and will send you a detailed response within a few hours.",
+        "I appreciate you reaching out. Your concern is noted — I'll look into this and respond today.",
+      ];
+
+      setTimeout(() => {
+        const indicator = document.getElementById('typingIndicator');
+        if (indicator) indicator.remove();
+        const reply = document.createElement('div');
+        reply.className = 'chat-msg incoming';
+        const replyTime = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        const avatarText = document.getElementById('threadAvatar').textContent;
+        const avatarStyle = document.getElementById('threadAvatar').style.background;
+        reply.innerHTML = `
+          <div class="msg-avatar" style="background:${avatarStyle};">${avatarText}</div>
+          <div>
+            <div class="msg-bubble"><div class="msg-text">${replies[Math.floor(Math.random() * replies.length)]}</div></div>
+            <div class="msg-time">${replyTime}</div>
+          </div>`;
+        messages.appendChild(reply);
+        messages.scrollTop = messages.scrollHeight;
+      }, 2200);
+    }, 900);
+  }
+
+  function handleAttachment(input) {
+    if (!input.files.length) return;
+    const file = input.files[0];
+    const messages = document.getElementById('chatMessages');
+    const now = new Date();
+    const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    const msg = document.createElement('div');
+    msg.className = 'chat-msg outgoing';
+    msg.innerHTML = `
+      <div>
+        <div class="msg-bubble" style="background:var(--navy);">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:22px;">${file.type.startsWith('image/') ? '🖼' : '📄'}</span>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#fff;">${escapeHtml(file.name)}</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.65);">${(file.size / 1024).toFixed(0)} KB · Encrypted upload</div>
+            </div>
+          </div>
+        </div>
+        <div class="msg-time">${time} · Sent securely</div>
+      </div>`;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+    input.value = '';
+  }
+
+  function switchThread(name, initials, role, responseTime, online) {
+    document.querySelectorAll('.care-member').forEach(m => m.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    // Remove unread badge
+    const badge = event.currentTarget.querySelector('.care-unread');
+    if (badge) badge.remove();
+
+    document.getElementById('threadName').textContent = name;
+    document.getElementById('threadAvatar').textContent = initials;
+
+    const colors = { SR: 'linear-gradient(135deg,#1b4332,#2d6a4f)', KP: 'linear-gradient(135deg,#1e3a5f,#2d5986)', JL: 'linear-gradient(135deg,#3b1f6a,#6d4a9e)', FD: 'linear-gradient(135deg,#1a3a2a,#2e6b4f)', MC: 'linear-gradient(135deg,#4a1942,#7b2d7b)' };
+    document.getElementById('threadAvatar').style.background = colors[initials] || 'linear-gradient(135deg,var(--navy),var(--navy-mid))';
+
+    document.querySelector('.chat-thread-status').innerHTML = `${role} &nbsp;·&nbsp; <span class="response-time">⏱ ${responseTime}</span>`;
+    document.querySelector('.chat-input').placeholder = `Message ${name}...`;
+  }
+
+  function filterTeam(q) {
+    const term = q.toLowerCase();
+    document.querySelectorAll('.care-member').forEach(m => {
+      m.style.display = m.dataset.name.includes(term) ? '' : 'none';
+    });
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Scroll to bottom on load
+  window.addEventListener('load', () => {
+    const messages = document.getElementById('chatMessages');
+    messages.scrollTop = messages.scrollHeight;
+  });
+
+  // Add keyframe bounce animation for typing dots
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-6px); }
+    }`;
+  document.head.appendChild(style);
+</script>
+</body>
+</html>

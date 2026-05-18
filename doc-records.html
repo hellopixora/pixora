@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical Records — Pixora Doc 1</title>
+  <link rel="stylesheet" href="healthcare.css" />
+</head>
+<body class="records-page">
+
+<!-- ─── Navigation ─── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="doc-home.html" class="nav-logo">
+      <div class="nav-logo-icon">P</div>
+      Pixora Doc 1
+    </a>
+    <div class="nav-links">
+      <a href="doc-home.html">Home</a>
+      <a href="doc-booking.html">Book Appointment</a>
+      <a href="doc-dashboard.html">My Health</a>
+      <a href="doc-records.html" class="active">Records</a>
+      <a href="doc-chat.html">SecureChat</a>
+    </div>
+    <div class="nav-cta">
+      <span class="nav-badge">HIPAA Secure</span>
+    </div>
+    <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="doc-home.html">Home</a>
+  <a href="doc-booking.html">Book Appointment</a>
+  <a href="doc-dashboard.html">My Health</a>
+  <a href="doc-records.html" class="active">Records</a>
+  <a href="doc-chat.html">SecureChat</a>
+</div>
+
+<!-- ─── Header ─── -->
+<div class="records-header">
+  <div class="container">
+    <div class="hipaa-strip" style="margin-bottom:16px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      All records are encrypted end-to-end. Only you and your care team have access.
+    </div>
+    <h1 style="color:var(--white);margin-bottom:8px;">Medical Records</h1>
+    <p style="color:rgba(255,255,255,0.65);font-size:16px;">Your complete health history — searchable, downloadable, always available.</p>
+  </div>
+</div>
+
+<!-- ─── Records Body ─── -->
+<div class="container" style="padding-bottom:80px;">
+
+  <!-- Toolbar -->
+  <div class="records-toolbar">
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search records, doctors, dates..." onkeyup="filterRecords()" />
+    </div>
+    <div class="filter-tabs">
+      <div class="filter-tab active" onclick="setFilter('all', this)">All</div>
+      <div class="filter-tab" onclick="setFilter('lab', this)">Labs</div>
+      <div class="filter-tab" onclick="setFilter('rx', this)">Prescriptions</div>
+      <div class="filter-tab" onclick="setFilter('visit', this)">Visits</div>
+      <div class="filter-tab" onclick="setFilter('imaging', this)">Imaging</div>
+    </div>
+    <select class="sort-select" onchange="sortRecords(this.value)" id="sortSelect">
+      <option value="newest">Newest first</option>
+      <option value="oldest">Oldest first</option>
+      <option value="type">By type</option>
+    </select>
+  </div>
+
+  <!-- Stats Row -->
+  <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;">
+    <div style="background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:14px 20px;flex:1;min-width:140px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:4px;">Total Records</div>
+      <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;color:var(--navy);" id="totalCount">12</div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:14px 20px;flex:1;min-width:140px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:4px;">Lab Results</div>
+      <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;color:var(--navy);">4</div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:14px 20px;flex:1;min-width:140px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:4px;">Prescriptions</div>
+      <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;color:var(--navy);">3</div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:14px 20px;flex:1;min-width:140px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:4px;">Visit Notes</div>
+      <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;color:var(--navy);">4</div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:14px 20px;flex:1;min-width:140px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:4px;">Imaging</div>
+      <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;color:var(--navy);">1</div>
+    </div>
+  </div>
+
+  <!-- Records List -->
+  <div class="records-list" id="recordsList">
+
+    <!-- Lab Result 1 -->
+    <div class="record-item" data-type="lab" data-date="2026-05-16" data-search="cbc blood count sarah rahman lab">
+      <div class="record-icon" style="background:#dbeafe;">🧪</div>
+      <div class="record-info">
+        <div class="record-title">Complete Blood Count (CBC)</div>
+        <div class="record-meta">
+          <span class="badge badge-blue" style="font-size:10px;">Lab Result</span>
+          &nbsp;· May 16, 2026 &nbsp;· Dr. Sarah Rahman
+        </div>
+        <div class="record-desc">WBC 6.2 · RBC 4.8 · Hemoglobin 14.1 · Hematocrit 42% · Platelets 245k — All values within normal range.</div>
+      </div>
+      <div class="record-actions">
+        <button class="btn btn-outline-teal btn-sm" onclick="downloadRecord('CBC_20260516.pdf')">↓ PDF</button>
+      </div>
+    </div>
+
+    <!-- Visit 1 -->
+    <div class="record-item" data-type="visit" data-date="2026-05-10" data-search="telehealth visit sarah rahman blood pressure">
+      <div class="record-icon" style="background:#ede9fe;">📋</div>
+      <div class="record-info">
+        <div class="record-title">Telehealth Visit Summary</div>
+        <div class="record-meta">
+          <span class="badge badge-teal" style="font-size:10px;">Visit Note</span>
+          &nbsp;· May 10, 2026 &nbsp;· Dr. Sarah Rahman
+        </div>
+        <div class="record-desc">Blood pressure management review. Current medication Lisinopril 10mg maintained. Follow blood pressure log daily. Next telehealth in 6 weeks.</div>
+      </div>
+      <div class="record-actions">
+        <button class="btn btn-outline-teal btn-sm" onclick="downloadRecord('Visit_20260510.pdf')">↓ PDF</button>
+      </div>
+    </div>
+
+    <!-- Rx 1 -->
+    <div class="record-item" data-type="rx" data-date="2026-05-14" data-search="lisinopril prescription blood pressure sarah rahman">
+      <div class="record-icon" style="background:var(--teal-pale);">💊</div>
+      <div class="record-info">
+        <div class="record-title">Lisinopril 10mg — 30-day Refill</div>
+        <div class="record-meta">
+          <span class="badge badge-green" style="font-size:10px;">Prescription</span>
+          &nbsp;· May 14, 2026 &nbsp;· Dr. Sarah Rahman
+        </div>
+        <div class="record-desc">Take 1 tablet by mouth once daily. Refills remaining: 3. Sent to Walgreens Main St — ready for pickup.</div>
+      </div>
+      <div class="record-actions">
+        <button class="btn btn-outline-teal btn-sm" onclick="downloadRecord('Rx_20260514.pdf')">↓ PDF</button>
+      </div>
+    </div>
+
+    <!-- Lab Result 2 -->
+    <div class="record-item" data-type="lab" data-date="2026-04-28" data-search="hba1c hemoglobin a1c diabetes kaveh patel lab">
+      <div class="record-icon" style="background:#dbeafe;">🧪</div>
+      <div class="record-info">
+        <div class="record-title">HbA1c (Hemoglobin A1C) Panel</div>
+        <div class="record-meta">
+          <span class="badge badge-blue" style="font-size:10px;">Lab Result</span>
+          &nbsp;· Apr 28, 2026 &nbsp;· Dr. Kaveh Patel
+        </div>
+        <div class="record-desc">HbA1c: 5.8% — Slightly above optimal (&lt;5.7%). Dietary modifications recommended. Recheck in 90 days. No medication changes at this time.</div>
+      </div>
+      <div class="record-actions">
+        <span class="badge badge-gold" style="font-size:10px;">⚠ Follow-up needed</span>
+        <button class="btn btn-outline-teal btn-sm" onclick="downloadRecord('HbA1c_20260428.pdf')">↓ PDF</button>
+      </div>
+    </div>
+
+    <!-- Visit 2 -->
+    <div class="record-item" data-type="visit" data-date="2026-04-05" data-search="annual physical sarah rahman preventive care">
+      <div class="record-icon" style="background:#ede9fe;">📋</div>
+      <div class="record-info">
+        <div class="record-title">Annual Preventive Physical</div>
+        <div class="record-meta">
+          <span class="badge badge-teal" style="font-size:10px;">Visit Note</span>
+          &nbsp;· Apr 5, 2026 &nbsp;· Dr. Sarah Rahman
+        </div>
+        <div class="record-desc">Comprehensive annual exam. Flu shot administered. EKG normal. Colonoscopy screening due in 2028. All major screenings completed and documented.</div>
+      </div>
+      <div class="record-actions">
+        <button class="btn btn-outline-teal btn-sm" onclick="downloadRecord('Physical_20260405.pdf')">↓ PDF</button>
+      </div>
+    </div>
+
+    <!-- Lab Result 3 -->
+    <div class="record-item" data-type="lab" data-date="2026-04-05" data-search="lipid panel cholesterol ldl hdl sarah rahman lab">
+      <div class="record-icon" style="background:#dbeafe;">🧪</div>
+      <div class="record-info">
+        <div class="record-title">Lipid Panel (Cholesterol Screening)</div>
+        <div class="record-meta">
+          <span class="badge badge-blue" style="font-size:10px;">Lab Result</span>
+          &nbsp;· Apr 5, 2026 &nbsp;· Dr. Sarah Rahman
+        </div>
+        <div class="record-desc">Total Cholesterol: 188 · LDL: 110 · HDL: 58 · Triglycerides: 102 — All values within healthy range. Continue current diet and exercise regimen.</div>
+      </div>
+      <div class="record-actions">
+        <button class="btn btn-outline-teal btn-sm" onclick="downloadRecord('Lipid_20260405.pdf')">↓ PDF</button>
+      </div>
+    </div>
+
+    <!-- Imaging -->
+    <div class="record-item" data-type="imaging" data-date="2026-03-18" data-search="chest xray imaging radiology pulmonary">
+      <div class="record-icon" style="background:#fce7f3;">🫁</div>
+      <div class="record-info">
+        <div class="record-title">Chest X-Ray — PA & Lateral</div>
+        <div class="record-meta">
+          <span class="badge badge-navy" style="font-size:10px;">Imaging</span>
+          &nbsp;· Mar 18, 2026 &nbsp;· Dr. Sarah Rahman · Radiology: Dr. Yun Park
+        </div>
+        <div class="record-desc">No acute cardiopulmonary process identified. Lungs clear and well-inflated. Heart size and mediastinal contour normal. No pleural effusion.</div>
+      </div>
+      <div class="record-actions">
+        <button class="btn btn-outline-teal btn-sm" onclick="downloadRecord('XRay_20260318.pdf')">↓ PDF</button>
+      </div>
+    </div>
+
+    <!-- Rx 2 -->
+    <div class="record-item" data-type="rx" data-date="2026-02-12" data-search="atorvastatin statin cholesterol kaveh patel">
+      <div class="record-icon" style="background:var(--teal-pale);">💊</div>
+      <div class="record-info">
+        <div class="record-title">Atorvastatin 20mg — New Prescription</div>
+        <div class="record-meta">
+          <span class="badge badge-green" style="font-size:10px;">Prescription</span>
+          &nbsp;· Feb 12, 2026 &nbsp;· Dr. Kaveh Patel
+        </div>
+        <div class="record-desc">Take 1 tablet by mouth at bedtime. Preventive statin therapy. Monitor for muscle pain. Liver function test at 3 months. Refills: 5 remaining.</div>
+      </div>
+      <div class="record-actions">
+        <button class="btn btn-outline-teal btn-sm" onclick="downloadRecord('Rx_Atorvastatin.pdf')">↓ PDF</button>
+      </div>
+    </div>
+
+    <!-- Visit 3 -->
+    <div class="record-item" data-type="visit" data-date="2026-02-02" data-search="cardiology visit patel ecg ekg heart">
+      <div class="record-icon" style="background:#ede9fe;">📋</div>
+      <div class="record-info">
+        <div class="record-title">Cardiology Consultation — EKG Review</div>
+        <div class="record-meta">
+          <span class="badge badge-teal" style="font-size:10px;">Visit Note</span>
+          &nbsp;· Feb 2, 2026 &nbsp;· Dr. Kaveh Patel
+        </div>
+        <div class="record-desc">12-lead EKG normal sinus rhythm. No ST changes or arrhythmia detected. Started on low-dose statin for primary prevention. Follow up in 4 months.</div>
+      </div>
+      <div class="record-actions">
+        <button class="btn btn-outline-teal btn-sm" onclick="downloadRecord('Cardiology_20260202.pdf')">↓ PDF</button>
+      </div>
+    </div>
+
+    <!-- Rx 3 -->
+    <div class="record-item" data-type="rx" data-date="2025-12-19" data-search="amoxicillin antibiotic sinus infection sarah rahman">
+      <div class="record-icon" style="background:var(--teal-pale);">💊</div>
+      <div class="record-info">
+        <div class="record-title">Amoxicillin 500mg — 10-day Course</div>
+        <div class="record-meta">
+          <span class="badge badge-green" style="font-size:10px;">Prescription</span>
+          &nbsp;· Dec 19, 2025 &nbsp;· Dr. Sarah Rahman
+        </div>
+        <div class="record-desc">Three times daily for acute sinusitis. Complete the full course. Take with food to reduce GI upset. Prescription completed — no refills.</div>
+      </div>
+      <div class="record-actions">
+        <span class="badge badge-blue" style="font-size:10px;">Completed</span>
+        <button class="btn btn-outline-teal btn-sm" onclick="downloadRecord('Rx_Amoxicillin.pdf')">↓ PDF</button>
+      </div>
+    </div>
+
+    <!-- Lab Result 4 -->
+    <div class="record-item" data-type="lab" data-date="2025-11-08" data-search="thyroid tsh t3 t4 sarah rahman lab">
+      <div class="record-icon" style="background:#dbeafe;">🧪</div>
+      <div class="record-info">
+        <div class="record-title">Thyroid Function Panel (TSH, T3, T4)</div>
+        <div class="record-meta">
+          <span class="badge badge-blue" style="font-size:10px;">Lab Result</span>
+          &nbsp;· Nov 8, 2025 &nbsp;· Dr. Sarah Rahman
+        </div>
+        <div class="record-desc">TSH: 2.1 mIU/L (normal 0.5–4.5) · Free T4: 1.1 ng/dL · Free T3: 3.0 pg/mL — Thyroid function is normal. No intervention required.</div>
+      </div>
+      <div class="record-actions">
+        <button class="btn btn-outline-teal btn-sm" onclick="downloadRecord('Thyroid_20251108.pdf')">↓ PDF</button>
+      </div>
+    </div>
+
+    <!-- Visit 4 -->
+    <div class="record-item" data-type="visit" data-date="2025-10-14" data-search="annual visit rahman preventive flu shot">
+      <div class="record-icon" style="background:#ede9fe;">📋</div>
+      <div class="record-info">
+        <div class="record-title">Annual Preventive Visit — 2025</div>
+        <div class="record-meta">
+          <span class="badge badge-teal" style="font-size:10px;">Visit Note</span>
+          &nbsp;· Oct 14, 2025 &nbsp;· Dr. Sarah Rahman
+        </div>
+        <div class="record-desc">Annual wellness exam. Flu and COVID booster administered. Blood work ordered. All vitals stable. No new concerns noted. Weight stable at 163 lbs.</div>
+      </div>
+      <div class="record-actions">
+        <button class="btn btn-outline-teal btn-sm" onclick="downloadRecord('Physical_20251014.pdf')">↓ PDF</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- No Results Message -->
+  <div id="noResults" style="display:none;text-align:center;padding:64px 24px;color:var(--text-muted);">
+    <div style="font-size:48px;margin-bottom:16px;">🔍</div>
+    <div style="font-size:18px;font-weight:600;color:var(--navy);margin-bottom:8px;">No records found</div>
+    <div style="font-size:14px;">Try adjusting your search or filter.</div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div id="toast" style="position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:#fff;padding:14px 24px;border-radius:var(--radius-md);font-size:14px;font-weight:600;box-shadow:var(--shadow-lg);transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);z-index:9999;pointer-events:none;border-left:4px solid var(--teal);">
+  ↓ Downloading PDF...
+</div>
+
+<footer class="footer" style="margin-top:0;">
+  <div class="footer-bottom" style="padding-top:24px;">
+    <div class="footer-copy">© 2026 Pixora Doc 1. All rights reserved.</div>
+    <div class="hipaa-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      HIPAA Compliant · AES-256 Encrypted
+    </div>
+  </div>
+</footer>
+
+<script>
+  let activeFilter = 'all';
+  let activeSort = 'newest';
+  let searchTerm = '';
+
+  function toggleMobileMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  function setFilter(type, el) {
+    activeFilter = type;
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    filterRecords();
+  }
+
+  function sortRecords(val) {
+    activeSort = val;
+    filterRecords();
+  }
+
+  function filterRecords() {
+    searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const items = [...document.querySelectorAll('.record-item')];
+
+    let visible = items.filter(item => {
+      const matchFilter = activeFilter === 'all' || item.dataset.type === activeFilter;
+      const matchSearch = !searchTerm || item.dataset.search.includes(searchTerm) || item.textContent.toLowerCase().includes(searchTerm);
+      return matchFilter && matchSearch;
+    });
+
+    // Sort
+    visible.sort((a, b) => {
+      if (activeSort === 'newest') return b.dataset.date.localeCompare(a.dataset.date);
+      if (activeSort === 'oldest') return a.dataset.date.localeCompare(b.dataset.date);
+      if (activeSort === 'type') return a.dataset.type.localeCompare(b.dataset.type);
+      return 0;
+    });
+
+    const list = document.getElementById('recordsList');
+    items.forEach(i => i.style.display = 'none');
+    visible.forEach(i => { i.style.display = 'flex'; list.appendChild(i); });
+
+    document.getElementById('noResults').style.display = visible.length === 0 ? 'block' : 'none';
+    document.getElementById('totalCount').textContent = visible.length;
+  }
+
+  function downloadRecord(filename) {
+    const toast = document.getElementById('toast');
+    toast.textContent = '↓ Downloading ' + filename;
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    setTimeout(() => { toast.style.transform = 'translateX(-50%) translateY(80px)'; }, 3000);
+  }
+</script>
+</body>
+</html>
