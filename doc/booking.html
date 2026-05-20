@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Appointment — Pixora Doc 1</title>
+  <meta name="description" content="Book an in-person or telehealth appointment with a Pixora Doc 1 physician in minutes." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="booking.css" />
+</head>
+<body>
+
+<div class="page-loader" id="pageLoader">
+  <div class="loader-content">
+    <div class="loader-logo">
+      <div class="loader-icon">P</div>
+      <span class="loader-text">Pixora Doc 1</span>
+    </div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo-icon">P</div>
+      <span class="nav-wordmark">Pixora <span>Doc 1</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="booking.html" class="active">Book Appointment</a></li>
+      <li><a href="dashboard.html">My Health</a></li>
+      <li><a href="records.html">Records</a></li>
+      <li><a href="chat.html">Messages</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="booking.html" class="nav-cta-btn">Book Now</a>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="nav-mobile" id="navMobile">
+  <a href="index.html">Home</a>
+  <a href="booking.html" class="active">Book Appointment</a>
+  <a href="dashboard.html">My Health</a>
+  <a href="records.html">Records</a>
+  <a href="chat.html">Messages</a>
+  <a href="booking.html" class="nav-cta-btn btn btn-primary">Book Now</a>
+</div>
+
+<div class="nav-spacer"></div>
+
+<!-- Page Header -->
+<div class="page-header">
+  <div class="container">
+    <h1 class="page-title">Book an Appointment</h1>
+    <p class="page-subtitle">Choose your physician, pick a time, and you're done. Most appointments confirmed in under 3 minutes.</p>
+    <div class="hipaa-note mt-12">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      All booking data is HIPAA protected and end-to-end encrypted
+    </div>
+  </div>
+</div>
+
+<!-- Booking Steps Progress -->
+<div class="booking-progress-bar">
+  <div class="container">
+    <div class="progress-steps" id="progressSteps">
+      <div class="progress-step active" data-step="1">
+        <div class="step-circle">1</div>
+        <span class="step-label">Choose Doctor</span>
+      </div>
+      <div class="progress-line"></div>
+      <div class="progress-step" data-step="2">
+        <div class="step-circle">2</div>
+        <span class="step-label">Pick Date</span>
+      </div>
+      <div class="progress-line"></div>
+      <div class="progress-step" data-step="3">
+        <div class="step-circle">3</div>
+        <span class="step-label">Time Slot</span>
+      </div>
+      <div class="progress-line"></div>
+      <div class="progress-step" data-step="4">
+        <div class="step-circle">4</div>
+        <span class="step-label">Visit Type</span>
+      </div>
+      <div class="progress-line"></div>
+      <div class="progress-step" data-step="5">
+        <div class="step-circle">5</div>
+        <span class="step-label">Confirm</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Booking Layout -->
+<div class="booking-layout container">
+  <div class="booking-main">
+
+    <!-- Step 1: Choose Doctor -->
+    <div class="booking-step" id="step1" data-active="true">
+      <div class="step-header">
+        <h2>Choose your physician</h2>
+        <p>All physicians are board-certified and reviewed by real patients.</p>
+      </div>
+      <div class="doctor-search mb-24">
+        <input type="text" class="form-input" id="doctorSearch" placeholder="Search by name or specialty…" />
+      </div>
+      <div class="doctor-pick-grid" id="doctorPickGrid">
+
+        <button class="doctor-pick-card" data-doctor="Dr. Sarah Chen, MD" data-specialty="Cardiologist" data-initial="S">
+          <div class="pick-avatar">S</div>
+          <div class="pick-info">
+            <h4>Dr. Sarah Chen, MD</h4>
+            <p class="text-sm" style="color:var(--teal);">Cardiologist</p>
+            <p class="text-xs mt-4" style="color:var(--text-muted);">Stanford Medicine · 15 years</p>
+            <div class="pick-meta">
+              <span class="stars"><span class="star">★★★★★</span></span>
+              <span class="text-xs text-muted">4.9 · 312 reviews</span>
+              <span class="badge badge-gold">⭐ Top Rated</span>
+            </div>
+          </div>
+          <div class="pick-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </button>
+
+        <button class="doctor-pick-card" data-doctor="Dr. Marcus Williams, DO" data-specialty="Family Medicine" data-initial="M">
+          <div class="pick-avatar">M</div>
+          <div class="pick-info">
+            <h4>Dr. Marcus Williams, DO</h4>
+            <p class="text-sm" style="color:var(--teal);">Family Medicine</p>
+            <p class="text-xs mt-4" style="color:var(--text-muted);">Johns Hopkins · 8 years</p>
+            <div class="pick-meta">
+              <span class="stars"><span class="star">★★★★★</span></span>
+              <span class="text-xs text-muted">4.8 · 97 reviews</span>
+              <span class="badge badge-teal">New</span>
+            </div>
+          </div>
+          <div class="pick-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </button>
+
+        <button class="doctor-pick-card" data-doctor="Dr. Priya Nair, MD" data-specialty="Neurologist" data-initial="P">
+          <div class="pick-avatar">P</div>
+          <div class="pick-info">
+            <h4>Dr. Priya Nair, MD</h4>
+            <p class="text-sm" style="color:var(--teal);">Neurologist</p>
+            <p class="text-xs mt-4" style="color:var(--text-muted);">Mayo Clinic · 12 years</p>
+            <div class="pick-meta">
+              <span class="stars"><span class="star">★★★★★</span></span>
+              <span class="text-xs text-muted">4.9 · 248 reviews</span>
+              <span class="badge badge-gold">⭐ Top Rated</span>
+            </div>
+          </div>
+          <div class="pick-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </button>
+
+        <button class="doctor-pick-card" data-doctor="Dr. James Okoye, MD" data-specialty="Dermatologist" data-initial="J">
+          <div class="pick-avatar">J</div>
+          <div class="pick-info">
+            <h4>Dr. James Okoye, MD</h4>
+            <p class="text-sm" style="color:var(--teal);">Dermatologist</p>
+            <p class="text-xs mt-4" style="color:var(--text-muted);">UCLA Health · 10 years</p>
+            <div class="pick-meta">
+              <span class="stars"><span class="star">★★★★</span></span>
+              <span class="text-xs text-muted">4.7 · 183 reviews</span>
+            </div>
+          </div>
+          <div class="pick-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </button>
+
+        <button class="doctor-pick-card" data-doctor="Dr. Elena Vasquez, MD" data-specialty="Endocrinologist" data-initial="E">
+          <div class="pick-avatar">E</div>
+          <div class="pick-info">
+            <h4>Dr. Elena Vasquez, MD</h4>
+            <p class="text-sm" style="color:var(--teal);">Endocrinologist</p>
+            <p class="text-xs mt-4" style="color:var(--text-muted);">UCSF Medical · 18 years</p>
+            <div class="pick-meta">
+              <span class="stars"><span class="star">★★★★★</span></span>
+              <span class="text-xs text-muted">4.8 · 221 reviews</span>
+            </div>
+          </div>
+          <div class="pick-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </button>
+
+        <button class="doctor-pick-card" data-doctor="Dr. Robert Kim, MD" data-specialty="Orthopedist" data-initial="R">
+          <div class="pick-avatar">R</div>
+          <div class="pick-info">
+            <h4>Dr. Robert Kim, MD</h4>
+            <p class="text-sm" style="color:var(--teal);">Orthopedist</p>
+            <p class="text-xs mt-4" style="color:var(--text-muted);">Cleveland Clinic · 14 years</p>
+            <div class="pick-meta">
+              <span class="stars"><span class="star">★★★★</span></span>
+              <span class="text-xs text-muted">4.6 · 156 reviews</span>
+            </div>
+          </div>
+          <div class="pick-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </button>
+
+      </div>
+      <div class="step-nav">
+        <div></div>
+        <button class="btn btn-primary" id="toStep2" disabled>Continue <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Step 2: Pick Date -->
+    <div class="booking-step hidden" id="step2">
+      <div class="step-header">
+        <h2>Select a date</h2>
+        <p>All times shown in your local timezone. Green dates have availability.</p>
+      </div>
+      <div class="date-strip" id="dateStrip"></div>
+      <div class="step-nav">
+        <button class="btn btn-outline" id="backTo1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button class="btn btn-primary" id="toStep3" disabled>Continue <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Step 3: Time Slot -->
+    <div class="booking-step hidden" id="step3">
+      <div class="step-header">
+        <h2>Pick a time slot</h2>
+        <p>Available appointments are shown in teal. Greyed slots are already taken.</p>
+      </div>
+      <div class="timeslot-section">
+        <h5 style="color:var(--text-mid);font-size:0.85rem;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px;">Morning</h5>
+        <div class="timeslot-grid" id="timeslotGrid">
+          <button class="timeslot available" data-time="8:00 AM">8:00 AM</button>
+          <button class="timeslot" data-time="8:30 AM" disabled>8:30 AM</button>
+          <button class="timeslot available" data-time="9:00 AM">9:00 AM</button>
+          <button class="timeslot available" data-time="9:30 AM">9:30 AM</button>
+          <button class="timeslot" data-time="10:00 AM" disabled>10:00 AM</button>
+          <button class="timeslot available" data-time="10:30 AM">10:30 AM</button>
+          <button class="timeslot" data-time="11:00 AM" disabled>11:00 AM</button>
+          <button class="timeslot available" data-time="11:30 AM">11:30 AM</button>
+        </div>
+        <h5 style="color:var(--text-mid);font-size:0.85rem;letter-spacing:0.06em;text-transform:uppercase;margin:20px 0 14px;">Afternoon</h5>
+        <div class="timeslot-grid">
+          <button class="timeslot available" data-time="1:00 PM">1:00 PM</button>
+          <button class="timeslot available" data-time="1:30 PM">1:30 PM</button>
+          <button class="timeslot" data-time="2:00 PM" disabled>2:00 PM</button>
+          <button class="timeslot available" data-time="2:30 PM">2:30 PM</button>
+          <button class="timeslot available" data-time="3:00 PM">3:00 PM</button>
+          <button class="timeslot" data-time="3:30 PM" disabled>3:30 PM</button>
+          <button class="timeslot available" data-time="4:00 PM">4:00 PM</button>
+          <button class="timeslot available" data-time="4:30 PM">4:30 PM</button>
+        </div>
+      </div>
+      <div class="step-nav">
+        <button class="btn btn-outline" id="backTo2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button class="btn btn-primary" id="toStep4" disabled>Continue <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Step 4: Visit Type -->
+    <div class="booking-step hidden" id="step4">
+      <div class="step-header">
+        <h2>Choose your visit type</h2>
+        <p>Telehealth visits are covered by most insurance plans at the same rate as in-person visits.</p>
+      </div>
+      <div class="visit-type-grid">
+        <button class="visit-type-card" data-type="In-Person">
+          <div class="visit-type-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h3>In-Person Visit</h3>
+          <p class="text-sm mt-8">See your doctor face-to-face at our clinic. Ideal for physical exams, procedures, and first consultations.</p>
+          <ul class="visit-type-perks">
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Physical examination</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> On-site labs &amp; imaging</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Most insurance accepted</li>
+          </ul>
+          <div class="visit-type-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </button>
+
+        <button class="visit-type-card" data-type="Telehealth">
+          <div class="visit-type-icon teal">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </div>
+          <h3>Telehealth Visit</h3>
+          <p class="text-sm mt-8">HD video visit from wherever you are. No commute, no waiting room — just you and your doctor.</p>
+          <ul class="visit-type-perks">
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> No app download needed</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Encrypted video call</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Same-day availability</li>
+          </ul>
+          <div class="visit-type-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </button>
+      </div>
+      <div class="step-nav">
+        <button class="btn btn-outline" id="backTo3"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button class="btn btn-primary" id="toStep5" disabled>Review Booking <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Step 5: Confirm -->
+    <div class="booking-step hidden" id="step5">
+      <div class="step-header">
+        <h2>Review your appointment</h2>
+        <p>Everything looks right? Confirm below and you'll receive a secure email confirmation.</p>
+      </div>
+      <div class="review-card card">
+        <div class="review-row">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          <div>
+            <p class="text-xs text-muted">Physician</p>
+            <p class="font-semibold" id="reviewDoctor">—</p>
+          </div>
+        </div>
+        <div class="review-row">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <div>
+            <p class="text-xs text-muted">Date &amp; Time</p>
+            <p class="font-semibold" id="reviewDateTime">—</p>
+          </div>
+        </div>
+        <div class="review-row">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          <div>
+            <p class="text-xs text-muted">Visit Type</p>
+            <p class="font-semibold" id="reviewType">—</p>
+          </div>
+        </div>
+        <div class="review-row" style="border:none;padding-bottom:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div>
+            <p class="text-xs text-muted">Security</p>
+            <p class="font-semibold" style="color:var(--success);">HIPAA Compliant · Encrypted</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mt-24">
+        <label for="patientNote">Reason for visit / notes for your doctor (optional)</label>
+        <textarea id="patientNote" class="form-input" placeholder="Brief description of your symptoms or what you'd like to discuss…"></textarea>
+      </div>
+      <div class="step-nav">
+        <button class="btn btn-outline" id="backTo4"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button class="btn btn-primary btn-lg" id="confirmBooking">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Confirm Appointment
+        </button>
+      </div>
+    </div>
+
+    <!-- Success State -->
+    <div class="booking-step hidden" id="stepSuccess">
+      <div class="success-state">
+        <div class="success-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>Appointment Confirmed!</h2>
+        <p class="mt-8" style="color:var(--text-body);font-size:1.05rem;">A secure confirmation has been sent to your email. You'll also receive a reminder 24 hours before your visit.</p>
+        <div class="success-details card mt-32">
+          <div class="review-row">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <div><p class="text-xs text-muted">Physician</p><p class="font-semibold" id="successDoctor">—</p></div>
+          </div>
+          <div class="review-row">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <div><p class="text-xs text-muted">Date &amp; Time</p><p class="font-semibold" id="successDateTime">—</p></div>
+          </div>
+          <div class="review-row" style="border:none;padding-bottom:0;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            <div><p class="text-xs text-muted">Visit Type</p><p class="font-semibold" id="successType">—</p></div>
+          </div>
+        </div>
+        <div class="success-actions mt-32">
+          <button class="btn btn-outline" id="addToCalendar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Add to Calendar
+          </button>
+          <a href="dashboard.html" class="btn btn-primary">View My Dashboard</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /booking-main -->
+
+  <!-- Sidebar Summary -->
+  <div class="booking-sidebar">
+    <div class="summary-card card">
+      <div class="summary-header">
+        <h4>Booking Summary</h4>
+        <span class="hipaa-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Secure
+        </span>
+      </div>
+      <div class="summary-rows">
+        <div class="summary-row" id="sumDoctor">
+          <span class="summary-label">Physician</span>
+          <span class="summary-val" id="sumDoctorVal">Not selected</span>
+        </div>
+        <div class="summary-row" id="sumDate">
+          <span class="summary-label">Date</span>
+          <span class="summary-val" id="sumDateVal">Not selected</span>
+        </div>
+        <div class="summary-row" id="sumTime">
+          <span class="summary-label">Time</span>
+          <span class="summary-val" id="sumTimeVal">Not selected</span>
+        </div>
+        <div class="summary-row" id="sumType">
+          <span class="summary-label">Visit Type</span>
+          <span class="summary-val" id="sumTypeVal">Not selected</span>
+        </div>
+      </div>
+      <div class="summary-footer">
+        <p class="hipaa-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Your booking is protected by HIPAA and 256-bit encryption.</p>
+      </div>
+    </div>
+    <div class="need-help-card mt-16">
+      <p class="text-sm font-semibold" style="color:var(--text-mid);">Need help booking?</p>
+      <p class="text-xs mt-4" style="color:var(--text-muted);">Our care coordinators are available Mon–Fri, 8am–6pm.</p>
+      <a href="chat.html" class="btn btn-outline btn-sm mt-12" style="width:100%;justify-content:center;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Chat with Us
+      </a>
+    </div>
+  </div>
+</div><!-- /booking-layout -->
+
+<footer class="footer" style="margin-top:80px;">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none;padding-top:0;">
+      <p>&copy; 2026 Pixora Doc 1, Inc. All rights reserved.</p>
+      <div class="footer-badges">
+        <span class="hipaa-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>HIPAA Compliant</span>
+        <span class="badge badge-success">SOC 2 Type II</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="toast-msg" id="toastMsg"></span></div>
+
+<script src="app.js"></script>
+<script src="booking.js"></script>
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Health Dashboard — Pixora Doc 1</title>
+  <meta name="description" content="Your personalized health dashboard — vitals, appointments, quick actions, and your health timeline." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+
+<div class="page-loader" id="pageLoader">
+  <div class="loader-content">
+    <div class="loader-logo"><div class="loader-icon">P</div><span class="loader-text">Pixora Doc 1</span></div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo-icon">P</div>
+      <span class="nav-wordmark">Pixora <span>Doc 1</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="booking.html">Book Appointment</a></li>
+      <li><a href="dashboard.html" class="active">My Health</a></li>
+      <li><a href="records.html">Records</a></li>
+      <li><a href="chat.html">Messages</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="booking.html" class="nav-cta-btn">Book Now</a>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="nav-mobile" id="navMobile">
+  <a href="index.html">Home</a>
+  <a href="booking.html">Book Appointment</a>
+  <a href="dashboard.html" class="active">My Health</a>
+  <a href="records.html">Records</a>
+  <a href="chat.html">Messages</a>
+  <a href="booking.html" class="nav-cta-btn btn btn-primary">Book Now</a>
+</div>
+
+<div class="nav-spacer"></div>
+
+<!-- Dashboard Header -->
+<div class="dash-header">
+  <div class="container">
+    <div class="dash-greeting">
+      <div class="dash-greeting-text">
+        <p class="greeting-label">Good morning,</p>
+        <h1 class="greeting-name">Jordan Whitfield</h1>
+        <p class="greeting-sub">Your next appointment is in <strong>3 days</strong> with Dr. Sarah Chen.</p>
+      </div>
+      <div class="dash-greeting-right">
+        <div class="health-status-badge">
+          <span class="status-dot"></span>
+          Health Status: <strong>Good</strong>
+        </div>
+        <div class="hipaa-badge mt-12">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          HIPAA Protected
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container dash-body">
+
+  <!-- ═══════════════════════════════════════════
+       VITALS PANEL
+  ════════════════════════════════════════════ -->
+  <section class="dash-section">
+    <div class="dash-section-header">
+      <div>
+        <h3 class="dash-section-title">Vitals Overview</h3>
+        <p class="dash-section-sub">Last recorded: Today at 7:42 AM · Data from your connected device</p>
+      </div>
+      <a href="records.html" class="btn btn-outline btn-sm">View Full History</a>
+    </div>
+
+    <div class="vitals-grid">
+
+      <div class="vital-card card fade-up">
+        <div class="vital-header">
+          <div class="vital-icon vital-icon-green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <span class="badge badge-success">Normal</span>
+        </div>
+        <div class="vital-value"><span class="vital-number" data-target="72">0</span><span class="vital-unit">bpm</span></div>
+        <div class="vital-label">Heart Rate</div>
+        <div class="vital-trend trend-stable">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 19 12"/></svg>
+          Stable — normal range 60–100
+        </div>
+        <div class="vital-mini-chart">
+          <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="0,30 20,25 40,32 60,18 80,22 100,15 120,20" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10b981" stop-opacity="0.2"/><stop offset="100%" stop-color="#10b981" stop-opacity="0"/></linearGradient>
+            <polygon points="0,30 20,25 40,32 60,18 80,22 100,15 120,20 120,40 0,40" fill="url(#g1)"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="vital-card card fade-up fade-up-delay-1">
+        <div class="vital-header">
+          <div class="vital-icon vital-icon-blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <span class="badge badge-warning">Elevated</span>
+        </div>
+        <div class="vital-value"><span class="vital-number-text">128/84</span><span class="vital-unit">mmHg</span></div>
+        <div class="vital-label">Blood Pressure</div>
+        <div class="vital-trend trend-up">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+          Slightly elevated — target &lt;120/80
+        </div>
+        <div class="vital-mini-chart">
+          <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="0,28 20,26 40,22 60,20 80,18 100,15 120,13" stroke="#f59e0b" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f59e0b" stop-opacity="0.2"/><stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/></linearGradient>
+            <polygon points="0,28 20,26 40,22 60,20 80,18 100,15 120,13 120,40 0,40" fill="url(#g2)"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="vital-card card fade-up fade-up-delay-2">
+        <div class="vital-header">
+          <div class="vital-icon vital-icon-teal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
+          </div>
+          <span class="badge badge-success">Normal</span>
+        </div>
+        <div class="vital-value"><span class="vital-number" data-target="95">0</span><span class="vital-unit">mg/dL</span></div>
+        <div class="vital-label">Blood Glucose</div>
+        <div class="vital-trend trend-stable">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 19 12"/></svg>
+          Stable — fasting normal &lt;100
+        </div>
+        <div class="vital-mini-chart">
+          <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="0,22 20,24 40,20 60,18 80,22 100,19 120,21" stroke="#0f8080" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0f8080" stop-opacity="0.2"/><stop offset="100%" stop-color="#0f8080" stop-opacity="0"/></linearGradient>
+            <polygon points="0,22 20,24 40,20 60,18 80,22 100,19 120,21 120,40 0,40" fill="url(#g3)"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="vital-card card fade-up fade-up-delay-3">
+        <div class="vital-header">
+          <div class="vital-icon vital-icon-purple">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <span class="badge badge-success">Normal</span>
+        </div>
+        <div class="vital-value"><span class="vital-number-text">24.1</span><span class="vital-unit">kg/m²</span></div>
+        <div class="vital-label">BMI</div>
+        <div class="vital-trend trend-down">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 9 12 15 6 9"/></svg>
+          Down 0.3 — healthy range 18.5–24.9
+        </div>
+        <div class="vital-mini-chart">
+          <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="0,15 20,18 40,22 60,24 80,22 100,20 120,18" stroke="#8b5cf6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <linearGradient id="g4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.2"/><stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/></linearGradient>
+            <polygon points="0,15 20,18 40,22 60,24 80,22 100,20 120,18 120,40 0,40" fill="url(#g4)"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       UPCOMING APPOINTMENTS
+  ════════════════════════════════════════════ -->
+  <section class="dash-section">
+    <div class="dash-section-header">
+      <div>
+        <h3 class="dash-section-title">Upcoming Appointments</h3>
+        <p class="dash-section-sub">Your next scheduled visits</p>
+      </div>
+      <a href="booking.html" class="btn btn-primary btn-sm">+ Book New</a>
+    </div>
+    <div class="appointments-list">
+
+      <div class="appt-card card fade-up">
+        <div class="appt-date-block">
+          <span class="appt-month">MAY</span>
+          <span class="appt-day">23</span>
+        </div>
+        <div class="appt-info">
+          <div class="appt-top">
+            <h4>Dr. Sarah Chen, MD</h4>
+            <span class="badge badge-teal">Telehealth</span>
+          </div>
+          <p class="text-sm" style="color:var(--teal);">Cardiologist</p>
+          <div class="appt-meta">
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Friday, May 23 · 10:30 AM
+            </span>
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+              Video Call
+            </span>
+          </div>
+        </div>
+        <div class="appt-actions">
+          <button class="btn btn-primary btn-sm" onclick="showToast('Video call link sent to your email!')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            Join Video Call
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="showToast('Appointment details shared.')">Reschedule</button>
+        </div>
+      </div>
+
+      <div class="appt-card card fade-up fade-up-delay-1">
+        <div class="appt-date-block" style="background:var(--cream-dark);">
+          <span class="appt-month">JUN</span>
+          <span class="appt-day">4</span>
+        </div>
+        <div class="appt-info">
+          <div class="appt-top">
+            <h4>Dr. Marcus Williams, DO</h4>
+            <span class="badge badge-navy">In-Person</span>
+          </div>
+          <p class="text-sm" style="color:var(--teal);">Family Medicine — Annual Physical</p>
+          <div class="appt-meta">
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Wednesday, Jun 4 · 9:00 AM
+            </span>
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              Pixora Clinic, 3rd Floor
+            </span>
+          </div>
+        </div>
+        <div class="appt-actions">
+          <button class="btn btn-outline btn-sm" onclick="showToast('Appointment rescheduled.')">Reschedule</button>
+          <button class="btn btn-outline btn-sm" style="color:var(--danger);border-color:var(--danger);" onclick="showToast('Appointment cancelled.')">Cancel</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       QUICK ACTIONS
+  ════════════════════════════════════════════ -->
+  <section class="dash-section">
+    <h3 class="dash-section-title mb-20">Quick Actions</h3>
+    <div class="quick-actions-grid">
+
+      <button class="quick-action-card card" onclick="showToast('Refill request sent to Dr. Chen. Ready in 24 hours.')">
+        <div class="qa-icon" style="background:#ecfdf5;color:#10b981;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        </div>
+        <h4>Request Refill</h4>
+        <p class="text-xs mt-4" style="color:var(--text-muted);">Metformin, Lisinopril</p>
+      </button>
+
+      <a href="chat.html" class="quick-action-card card">
+        <div class="qa-icon" style="background:rgba(15,128,128,0.1);color:var(--teal);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h4>Message Doctor</h4>
+        <p class="text-xs mt-4" style="color:var(--text-muted);">1 unread message</p>
+      </a>
+
+      <a href="records.html" class="quick-action-card card">
+        <div class="qa-icon" style="background:rgba(26,37,53,0.07);color:var(--navy);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <h4>Download Records</h4>
+        <p class="text-xs mt-4" style="color:var(--text-muted);">PDF, 14 documents</p>
+      </a>
+
+      <a href="booking.html" class="quick-action-card card">
+        <div class="qa-icon" style="background:#fffbeb;color:#d4930a;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h4>Book Follow-Up</h4>
+        <p class="text-xs mt-4" style="color:var(--text-muted);">Recommended by Dr. Chen</p>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       HEALTH TIMELINE
+  ════════════════════════════════════════════ -->
+  <section class="dash-section">
+    <div class="dash-section-header">
+      <div>
+        <h3 class="dash-section-title">Health Timeline</h3>
+        <p class="dash-section-sub">Your recent medical activity</p>
+      </div>
+      <a href="records.html" class="btn btn-outline btn-sm">View All Records</a>
+    </div>
+    <div class="timeline">
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot dot-teal"></div>
+        <div class="timeline-content card">
+          <div class="timeline-meta">
+            <span class="badge badge-teal">Lab Results</span>
+            <span class="text-xs text-muted">Today · May 20, 2026</span>
+          </div>
+          <h4 class="mt-8">Complete Blood Count (CBC)</h4>
+          <p class="text-sm mt-4" style="color:var(--text-body);">All values within normal range. WBC: 6.2, RBC: 4.8, Hemoglobin: 14.2. Dr. Chen has reviewed.</p>
+          <div class="timeline-actions">
+            <a href="records.html" class="btn btn-outline btn-sm">View Report</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up fade-up-delay-1">
+        <div class="timeline-dot dot-success"></div>
+        <div class="timeline-content card">
+          <div class="timeline-meta">
+            <span class="badge badge-success">Prescription</span>
+            <span class="text-xs text-muted">May 16, 2026</span>
+          </div>
+          <h4 class="mt-8">Rx Refill Processed</h4>
+          <p class="text-sm mt-4" style="color:var(--text-body);">Lisinopril 10mg — 90-day supply. Ready for pickup at CVS Pharmacy, Oak Street.</p>
+          <div class="timeline-actions">
+            <button class="btn btn-outline btn-sm" onclick="showToast('Transfer request sent to your pharmacy.')">Transfer Pharmacy</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up fade-up-delay-2">
+        <div class="timeline-dot dot-blue"></div>
+        <div class="timeline-content card">
+          <div class="timeline-meta">
+            <span class="badge badge-navy">Visit Summary</span>
+            <span class="text-xs text-muted">May 10, 2026</span>
+          </div>
+          <h4 class="mt-8">Cardiology Follow-Up — Dr. Sarah Chen</h4>
+          <p class="text-sm mt-4" style="color:var(--text-body);">Blood pressure trending high. Recommended DASH diet, daily 30-min walks, and reduced sodium. Follow-up scheduled in 2 weeks.</p>
+          <div class="timeline-actions">
+            <a href="records.html" class="btn btn-outline btn-sm">View Summary</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up fade-up-delay-3">
+        <div class="timeline-dot dot-warning"></div>
+        <div class="timeline-content card">
+          <div class="timeline-meta">
+            <span class="badge badge-warning">Imaging</span>
+            <span class="text-xs text-muted">Apr 28, 2026</span>
+          </div>
+          <h4 class="mt-8">Echocardiogram Results</h4>
+          <p class="text-sm mt-4" style="color:var(--text-body);">EF 62% (normal). No structural abnormalities detected. Full report attached. Reviewed by Dr. Chen — no immediate action required.</p>
+          <div class="timeline-actions">
+            <a href="records.html" class="btn btn-outline btn-sm">View Images</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<footer class="footer" style="margin-top:60px;">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none;padding-top:0;">
+      <p>&copy; 2026 Pixora Doc 1, Inc. All rights reserved.</p>
+      <div class="footer-badges">
+        <span class="hipaa-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>HIPAA Compliant</span>
+        <span class="badge badge-success">SOC 2 Type II</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span class="toast-msg" id="toastMsg"></span></div>
+
+<script src="app.js"></script>
+<script>
+  // Animate vitals numbers
+  document.querySelectorAll('.vital-number').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    let start = 0;
+    const step = target / 60;
+    const tick = () => {
+      start = Math.min(start + step, target);
+      el.textContent = Math.round(start);
+      if (start < target) requestAnimationFrame(tick);
+    };
+    setTimeout(tick, 600);
+  });
+</script>
+</body>
+</html>

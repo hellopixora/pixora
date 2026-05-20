@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecureChat — Pixora Doc 1</title>
+  <meta name="description" content="Encrypted, HIPAA-compliant messaging with your care team. No voicemail, no waiting — just direct secure communication." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="chat.css" />
+</head>
+<body class="chat-page">
+
+<div class="page-loader" id="pageLoader">
+  <div class="loader-content">
+    <div class="loader-logo"><div class="loader-icon">P</div><span class="loader-text">Pixora Doc 1</span></div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo-icon">P</div>
+      <span class="nav-wordmark">Pixora <span>Doc 1</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="booking.html">Book Appointment</a></li>
+      <li><a href="dashboard.html">My Health</a></li>
+      <li><a href="records.html">Records</a></li>
+      <li><a href="chat.html" class="active">Messages</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="booking.html" class="nav-cta-btn">Book Now</a>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="nav-mobile" id="navMobile">
+  <a href="index.html">Home</a>
+  <a href="booking.html">Book Appointment</a>
+  <a href="dashboard.html">My Health</a>
+  <a href="records.html">Records</a>
+  <a href="chat.html" class="active">Messages</a>
+  <a href="booking.html" class="nav-cta-btn btn btn-primary">Book Now</a>
+</div>
+<div class="nav-spacer"></div>
+
+<!-- Chat Layout -->
+<div class="chat-layout">
+
+  <!-- Left Panel: Care Team List -->
+  <aside class="chat-sidebar">
+    <div class="chat-sidebar-header">
+      <div>
+        <h3 style="color:white;">SecureChat</h3>
+        <p class="text-xs mt-4" style="color:rgba(255,255,255,0.45);">End-to-end encrypted</p>
+      </div>
+      <div class="chat-encrypt-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        E2E
+      </div>
+    </div>
+
+    <div class="sidebar-search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search conversations…" class="sidebar-search" />
+    </div>
+
+    <div class="care-team-list" id="careTeamList">
+
+      <button class="care-member active" data-contact="dr-chen" onclick="selectContact(this, 'dr-chen')">
+        <div class="care-avatar online">S</div>
+        <div class="care-info">
+          <div class="care-name-row">
+            <span class="care-name">Dr. Sarah Chen</span>
+            <span class="care-time">2m ago</span>
+          </div>
+          <span class="care-role">Cardiologist</span>
+          <span class="care-preview">I've reviewed your latest CBC results…</span>
+        </div>
+        <span class="unread-badge">1</span>
+      </button>
+
+      <button class="care-member" data-contact="dr-williams" onclick="selectContact(this, 'dr-williams')">
+        <div class="care-avatar away">M</div>
+        <div class="care-info">
+          <div class="care-name-row">
+            <span class="care-name">Dr. Marcus Williams</span>
+            <span class="care-time">Yesterday</span>
+          </div>
+          <span class="care-role">Family Medicine</span>
+          <span class="care-preview">Don't forget your annual physical…</span>
+        </div>
+      </button>
+
+      <button class="care-member" data-contact="nurse-johnson" onclick="selectContact(this, 'nurse-johnson')">
+        <div class="care-avatar online">L</div>
+        <div class="care-info">
+          <div class="care-name-row">
+            <span class="care-name">Nurse Lisa Johnson</span>
+            <span class="care-time">Mon</span>
+          </div>
+          <span class="care-role">Registered Nurse · Cardiology</span>
+          <span class="care-preview">Your Lisinopril refill is ready…</span>
+        </div>
+      </button>
+
+      <button class="care-member" data-contact="front-desk" onclick="selectContact(this, 'front-desk')">
+        <div class="care-avatar offline">P</div>
+        <div class="care-info">
+          <div class="care-name-row">
+            <span class="care-name">Patient Services</span>
+            <span class="care-time">May 16</span>
+          </div>
+          <span class="care-role">Front Desk &amp; Billing</span>
+          <span class="care-preview">Your appointment is confirmed for…</span>
+        </div>
+      </button>
+
+      <button class="care-member" data-contact="dr-vasquez" onclick="selectContact(this, 'dr-vasquez')">
+        <div class="care-avatar offline">E</div>
+        <div class="care-info">
+          <div class="care-name-row">
+            <span class="care-name">Dr. Elena Vasquez</span>
+            <span class="care-time">May 12</span>
+          </div>
+          <span class="care-role">Endocrinologist</span>
+          <span class="care-preview">Let's monitor your glucose levels…</span>
+        </div>
+      </button>
+
+    </div>
+
+    <div class="hipaa-sidebar-note">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      All messages are HIPAA compliant and stored with 256-bit encryption. Your care team cannot forward your messages without consent.
+    </div>
+  </aside>
+
+  <!-- Right Panel: Active Conversation -->
+  <div class="chat-main" id="chatMain">
+
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <button class="mobile-back-btn" id="mobileBackBtn" onclick="mobileChatBack()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="chat-header-avatar online">S</div>
+        <div class="chat-header-info">
+          <h4 id="activeContactName">Dr. Sarah Chen, MD</h4>
+          <div class="chat-header-meta">
+            <span class="online-indicator">
+              <span class="online-dot"></span>
+              Online
+            </span>
+            <span class="response-time">· Typically responds within 4 hours</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-header-right">
+        <div class="hipaa-badge" style="font-size:0.7rem;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Encrypted
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="showToast('Video call initiated. Check your email for the link.')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          Video Call
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="showToast('Booking follow-up with Dr. Chen.')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Book
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages Thread -->
+    <div class="chat-messages" id="chatMessages">
+
+      <!-- Date separator -->
+      <div class="date-sep"><span>Today · May 20, 2026</span></div>
+
+      <!-- Received -->
+      <div class="msg-group received">
+        <div class="msg-avatar">S</div>
+        <div class="msg-stack">
+          <div class="msg-bubble received">
+            Good morning, Jordan. I've just reviewed your CBC results from this morning — everything looks normal, which is great news. Your white blood cell count is healthy and there are no signs of infection or anemia.
+          </div>
+          <div class="msg-bubble received">
+            I do want to address the blood pressure reading from your last visit. Your numbers are still slightly elevated at 128/84. I'd like you to continue the DASH diet and try to get 30 minutes of walking in most days. We'll re-check at our telehealth appointment on Friday.
+          </div>
+          <span class="msg-time">9:14 AM</span>
+        </div>
+      </div>
+
+      <!-- Sent -->
+      <div class="msg-group sent">
+        <div class="msg-stack">
+          <div class="msg-bubble sent">
+            Thank you, Dr. Chen! I'm relieved about the CBC. I've been trying to stick to the DASH diet — it's going better than I expected, honestly.
+          </div>
+          <span class="msg-time">9:22 AM</span>
+        </div>
+      </div>
+
+      <div class="msg-group sent">
+        <div class="msg-stack">
+          <div class="msg-bubble sent">
+            One question — I've been waking up with mild headaches a few mornings this week. Could that be related to the blood pressure? Or the Lisinopril?
+          </div>
+          <span class="msg-time">9:23 AM</span>
+        </div>
+      </div>
+
+      <!-- Received -->
+      <div class="msg-group received">
+        <div class="msg-avatar">S</div>
+        <div class="msg-stack">
+          <div class="msg-bubble received">
+            Morning headaches can sometimes be a sign that blood pressure is elevated overnight. It's worth noting when you wake up — try to take a reading first thing before caffeine or activity. We can review that pattern on Friday.
+          </div>
+          <div class="msg-bubble received">
+            Lisinopril doesn't typically cause headaches, but if they worsen or come with vision changes, please message me right away or head to an urgent care center.
+          </div>
+          <span class="msg-time">9:41 AM · Seen ✓✓</span>
+        </div>
+      </div>
+
+      <!-- Sent -->
+      <div class="msg-group sent">
+        <div class="msg-stack">
+          <div class="msg-bubble sent">
+            Got it — I'll start tracking my morning BP readings and bring the log to Friday's call. Is there anything specific I should note?
+          </div>
+          <span class="msg-time">9:48 AM</span>
+        </div>
+      </div>
+
+      <!-- Received with attachment preview -->
+      <div class="msg-group received">
+        <div class="msg-avatar">S</div>
+        <div class="msg-stack">
+          <div class="msg-bubble received">
+            Yes — note the time of reading, whether you've had coffee or water yet, and how you slept. I'm also attaching a simple BP log template you can print or use on your phone.
+          </div>
+          <div class="msg-attachment">
+            <div class="attach-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="attach-info">
+              <span class="attach-name">BP_Log_Template.pdf</span>
+              <span class="attach-size">142 KB · PDF</span>
+            </div>
+            <button class="attach-download" onclick="showToast('Downloading BP_Log_Template.pdf…')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </button>
+          </div>
+          <span class="msg-time">10:02 AM · Seen ✓✓</span>
+        </div>
+      </div>
+
+      <!-- Unread separator -->
+      <div class="unread-sep"><span>1 unread message</span></div>
+
+      <!-- Received (unread) -->
+      <div class="msg-group received">
+        <div class="msg-avatar">S</div>
+        <div class="msg-stack">
+          <div class="msg-bubble received unread">
+            I've reviewed your latest CBC results and they look great. See you Friday at 10:30 AM for our telehealth check-in — the video link will be sent 30 minutes before the appointment. Feel free to message me if anything comes up before then!
+          </div>
+          <span class="msg-time">Just now</span>
+        </div>
+      </div>
+
+      <!-- Typing indicator -->
+      <div class="typing-indicator" id="typingIndicator">
+        <div class="msg-avatar" style="opacity:0.6;">S</div>
+        <div class="typing-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+    </div><!-- /chat-messages -->
+
+    <!-- Input Bar -->
+    <div class="chat-input-bar">
+      <div class="input-encrypt-note">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        End-to-end encrypted · HIPAA compliant
+      </div>
+      <div class="input-row">
+        <button class="input-action-btn" title="Attach file" onclick="showToast('File attachment support coming soon.')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+        </button>
+        <button class="input-action-btn" title="Upload photo" onclick="showToast('Photo upload coming soon.')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </button>
+        <div class="input-field-wrap">
+          <textarea
+            id="messageInput"
+            class="chat-input-field"
+            placeholder="Type a secure message to Dr. Chen…"
+            rows="1"
+          ></textarea>
+        </div>
+        <button class="send-btn" id="sendBtn" title="Send message">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /chat-main -->
+
+</div><!-- /chat-layout -->
+
+<div class="toast" id="toast"><svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span class="toast-msg" id="toastMsg"></span></div>
+
+<script src="app.js"></script>
+<script src="chat.js"></script>
+</body>
+</html>

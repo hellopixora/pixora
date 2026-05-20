@@ -1,0 +1,91 @@
+/* ============================================================
+   RECORDS PAGE — Styles
+   ============================================================ */
+
+/* === PAGE HEADER === */
+.page-header {
+  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+  padding: 52px 0 48px;
+}
+.page-title { color: white; margin-bottom: 10px; }
+.page-subtitle { color: rgba(255,255,255,0.6); font-size: 1.05rem; max-width: 520px; }
+.records-page-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+.records-stats {
+  display: flex; gap: 24px; flex-wrap: wrap; flex-shrink: 0;
+}
+.rec-stat {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg); padding: 16px 20px; min-width: 80px;
+}
+.rec-stat-num { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 700; color: white; line-height: 1; }
+.rec-stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.45); font-weight: 500; white-space: nowrap; }
+
+/* === CONTROLS BAR === */
+.records-controls-bar {
+  background: white; border-bottom: 1px solid var(--cream-dark);
+  padding: 18px 0; position: sticky; top: var(--nav-h); z-index: 100;
+  box-shadow: var(--shadow-xs);
+}
+.records-controls {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.search-wrap { position: relative; flex: 1; min-width: 240px; }
+.search-icon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  color: var(--text-muted); pointer-events: none;
+}
+.records-search { padding-left: 44px !important; }
+.filter-sort { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.filter-chips { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.filter-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: var(--radius-full);
+  font-size: 0.82rem; font-weight: 500; border: 1.5px solid var(--cream-dark);
+  background: white; color: var(--text-body); cursor: pointer;
+  transition: all var(--transition);
+}
+.filter-chip:hover { border-color: var(--teal); color: var(--teal); }
+.filter-chip.active { border-color: var(--teal); background: var(--teal); color: white; }
+.sort-wrap { display: flex; align-items: center; gap: 8px; }
+
+/* === RECORDS LIST === */
+.records-list { display: flex; flex-direction: column; gap: 14px; }
+.record-item {
+  display: flex; align-items: flex-start; gap: 18px; padding: 22px 24px;
+  transition: all var(--transition);
+}
+.record-item:hover { transform: translateY(-2px); }
+.record-info { flex: 1; min-width: 0; }
+.record-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.record-title { color: var(--text-dark); font-size: 1rem; font-weight: 700; }
+.record-doctor { color: var(--text-muted); }
+.record-tags-right { display: flex; gap: 6px; flex-wrap: wrap; flex-shrink: 0; }
+.record-desc { color: var(--text-body); line-height: 1.65; }
+.record-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--cream-dark); gap: 12px; flex-wrap: wrap;
+}
+.record-date { display: flex; align-items: center; gap: 6px; }
+.record-date svg { color: var(--text-muted); }
+
+/* === NO RESULTS === */
+.no-results {
+  text-align: center; padding: 64px 24px;
+  color: var(--text-muted);
+}
+.no-results.hidden { display: none; }
+.no-results-icon {
+  width: 64px; height: 64px; border-radius: 50%; background: var(--cream);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;
+  color: var(--text-muted);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .records-page-top { flex-direction: column; }
+  .record-item { flex-direction: column; }
+  .record-top { flex-direction: column; }
+  .records-controls { flex-direction: column; align-items: stretch; }
+  .filter-sort { flex-direction: column; align-items: flex-start; }
+}
