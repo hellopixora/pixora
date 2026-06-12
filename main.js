@@ -1,248 +1,249 @@
-/* ═══════════════════════════════════════════════════
-   PIXORA CAFE 1 — main.js
-   Shared across all pages
-═══════════════════════════════════════════════════ */
+/* ============================================================
+   Prime Plumbing LA — interactions & scroll choreography
+   (GSAP + ScrollTrigger + Lenis)
+   ============================================================ */
 
-/* ─── Custom Cursor ─── */
-const cursorDot = document.createElement('div');
-cursorDot.className = 'cursor-dot';
-document.body.appendChild(cursorDot);
+(function () {
+  "use strict";
 
-let cursorX = 0, cursorY = 0;
-let dotX = 0, dotY = 0;
-let rafId = null;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-document.addEventListener('mousemove', (e) => {
-  cursorX = e.clientX;
-  cursorY = e.clientY;
-  cursorDot.classList.remove('cursor-hidden');
-});
-
-document.addEventListener('mouseleave', () => cursorDot.classList.add('cursor-hidden'));
-
-(function animateCursor() {
-  dotX += (cursorX - dotX) * 0.14;
-  dotY += (cursorY - dotY) * 0.14;
-  cursorDot.style.left = dotX + 'px';
-  cursorDot.style.top  = dotY + 'px';
-  requestAnimationFrame(animateCursor);
-})();
-
-function bindCursorHover(selector) {
-  document.querySelectorAll(selector).forEach(el => {
-    el.addEventListener('mouseenter', () => cursorDot.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave', () => cursorDot.classList.remove('cursor-hover'));
-  });
-}
-bindCursorHover('a, button, .ingredient-card, .drink-card, .menu-card, .platform-card, .value-card, .stat-pill, .form-submit');
-
-/* ─── Page Loader ─── */
-const loader = document.querySelector('.page-loader');
-if (loader) {
-  window.addEventListener('load', () => {
-    setTimeout(() => loader.classList.add('loaded'), 380);
-  });
-  // Fallback
-  setTimeout(() => loader && loader.classList.add('loaded'), 2000);
-}
-
-/* ─── Navigation ─── */
-const nav = document.getElementById('nav');
-const hamburger = document.getElementById('hamburger');
-const navOverlay = document.getElementById('navOverlay');
-
-if (nav) {
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-  }, { passive: true });
-}
-
-if (hamburger && navOverlay) {
-  const openOverlay = () => {
-    hamburger.classList.add('open');
-    navOverlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  };
-  const closeOverlay = () => {
-    hamburger.classList.remove('open');
-    navOverlay.classList.remove('open');
-    document.body.style.overflow = '';
-  };
-
-  hamburger.addEventListener('click', () => {
-    navOverlay.classList.contains('open') ? closeOverlay() : openOverlay();
-  });
-
-  navOverlay.querySelectorAll('a').forEach(link => link.addEventListener('click', closeOverlay));
-
-  document.querySelector('.nav-overlay-close')?.addEventListener('click', closeOverlay);
-
-  // Close on Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeOverlay();
-  });
-}
-
-/* ─── Active Nav Link ─── */
-const currentFile = window.location.pathname.split('/').pop() || 'index.html';
-document.querySelectorAll('.nav-links a, .nav-overlay-links a').forEach(link => {
-  const href = link.getAttribute('href');
-  if (href === currentFile || (currentFile === '' && href === 'index.html')) {
-    link.classList.add('active');
-  }
-});
-
-/* ─── Scroll Reveal ─── */
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('revealed');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-/* ═══════════════════════════════════════════════════
-   HERO INGREDIENT CAROUSEL (home page only)
-   Cards drift slowly left in an infinite horizontal
-   loop — fanning out on each side of the drink and
-   passing behind it as they cross the centre.
-═══════════════════════════════════════════════════ */
-
-const flavorData = {
-  caramel:  { name: 'Caramel Cold Foam Latte',  price: '$8.50' },
-  vanilla:  { name: 'Vanilla Bean Cloud Latte',  price: '$8.00' },
-  hazelnut: { name: 'Hazelnut Espresso Frost',   price: '$8.75' },
-  cinnamon: { name: 'Cinnamon Spice Cold Brew',  price: '$7.50' },
-};
-
-// Gap between card centres + hide/fade zones — all responsive
-function getCarouselDims() {
-  const w = window.innerWidth;
-  if (w < 480)  return { gap: 88,  hideR: 50, fadeEdge: 152, speed: 10 };
-  if (w < 768)  return { gap: 112, hideR: 58, fadeEdge: 192, speed: 11 };
-  if (w < 1100) return { gap: 150, hideR: 65, fadeEdge: 262, speed: 12 };
-  return               { gap: 190, hideR: 74, fadeEdge: 328, speed: 12 }; // px/s
-}
-
-function initHeroCards() {
-  const cards = document.querySelectorAll('.ingredient-card');
-  if (!cards.length) return;
-
-  const N = cards.length; // 4
-  let dims        = getCarouselDims();
-  let t0          = null;
-  let activeIndex = 0; // caramel starts selected
-
-  // Hand transform control entirely to JS
-  cards.forEach(card => {
-    card.classList.remove('state-behind', 'state-rest', 'state-active');
-    card.style.opacity    = '0';
-    card.style.transition = 'box-shadow 300ms ease, opacity 600ms ease';
-  });
-
-  // Fade in after loader clears
-  setTimeout(() => {
-    cards.forEach(c => { c.style.opacity = '1'; });
-    cards[activeIndex].classList.add('active-glow');
-  }, 750);
-
-  /* ── Animation loop ── */
-  function tick(ts) {
-    if (!t0) t0 = ts;
-    const elapsed = (ts - t0) / 1000; // seconds
-    const LOOP    = dims.gap * N;      // total wrap distance (e.g. 760px)
-    const drift   = (elapsed * dims.speed) % LOOP;
-
-    cards.forEach((card, i) => {
-      // Evenly-spaced start positions: −1.5g, −0.5g, +0.5g, +1.5g
-      const initX = (i - (N - 1) / 2) * dims.gap;
-      let x = initX - drift;
-
-      // Wrap smoothly into [−LOOP/2, +LOOP/2)
-      x = ((x % LOOP) + LOOP + LOOP / 2) % LOOP - LOOP / 2;
-
-      const absX = Math.abs(x);
-
-      // ── Opacity ──
-      // Fade out near drink centre (behind it) and at the far wrap edges
-      const cFade = absX < dims.hideR
-        ? Math.max(0, (absX - dims.hideR * 0.2) / (dims.hideR * 0.8))
-        : 1;
-      const eFade = absX > dims.fadeEdge
-        ? Math.max(0, 1 - (absX - dims.fadeEdge) / (dims.gap * 0.55))
-        : 1;
-      card.style.opacity = (cFade * eFade).toFixed(3);
-
-      // ── Z-index: behind drink when crossing centre ──
-      card.style.zIndex = absX < dims.hideR ? '4' : '8';
-
-      // norm: 0 = inner position, 1 = outer/edge
-      const norm = Math.min(absX / dims.fadeEdge, 1);
-
-      // Slight scale: inner cards fractionally larger
-      const scale = 1.0 - norm * 0.11;
-
-      // Tilt: cards lean outward from centre
-      const tilt = -(x / (LOOP / 2)) * 13;
-
-      // Y-arc: outer cards rise slightly, like a gentle fan
-      const y = -(norm * norm) * 28;
-
-      card.style.transform = `translate(${x}px, ${y}px) scale(${scale}) rotate(${tilt}deg)`;
-    });
-
-    requestAnimationFrame(tick);
+  // If the animation libraries failed to load, leave the static page fully visible.
+  if (!window.gsap || !window.ScrollTrigger) {
+    const loaderEl = document.getElementById("loader");
+    if (loaderEl) loaderEl.style.display = "none";
+    return;
   }
 
-  requestAnimationFrame(tick);
-  window.addEventListener('resize', () => { dims = getCarouselDims(); }, { passive: true });
+  document.body.classList.add("js");
+  gsap.registerPlugin(ScrollTrigger);
 
-  /* ── Click: highlight card + update drink info ── */
-  cards.forEach((card, i) => {
-    card.addEventListener('click', () => {
-      if (i === activeIndex) return;
-      cards[activeIndex].classList.remove('active-glow');
-      activeIndex = i;
-      card.classList.add('active-glow');
-      updateDrinkInfo(card.dataset.flavor);
+  /* ---------- Smooth scroll (Lenis) ---------- */
+  let lenis = null;
+  if (!reduceMotion && typeof Lenis !== "undefined") {
+    lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1, smoothWheel: true });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  function scrollToTarget(hash) {
+    const el = document.querySelector(hash);
+    if (!el) return;
+    if (lenis) lenis.scrollTo(el, { offset: -60, duration: 1.4 });
+    else el.scrollIntoView({ behavior: "smooth" });
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    a.addEventListener("click", (e) => {
+      const hash = a.getAttribute("href");
+      if (hash.length > 1) {
+        e.preventDefault();
+        scrollToTarget(hash);
+        navLinks.classList.remove("is-open");
+        burger.classList.remove("is-open");
+      }
     });
   });
-}
 
-function updateDrinkInfo(flavor) {
-  const data    = flavorData[flavor];
-  const nameEl  = document.querySelector('.drink-name-display');
-  const priceEl = document.querySelector('.price-value');
-  if (nameEl) {
-    nameEl.style.opacity = '0';
-    setTimeout(() => { nameEl.textContent = data.name;  nameEl.style.opacity  = '1'; }, 190);
+  /* ---------- Loader ---------- */
+  const loader = document.getElementById("loader");
+  const loaderFill = document.getElementById("loaderFill");
+  const loaderCount = document.getElementById("loaderCount");
+  const progress = { v: 0 };
+
+  const introTl = gsap.timeline({ paused: true });
+
+  gsap.to(progress, {
+    v: 100,
+    duration: reduceMotion ? 0.01 : 1.6,
+    ease: "power2.inOut",
+    onUpdate() {
+      loaderCount.textContent = Math.round(progress.v);
+      loaderFill.style.width = progress.v + "%";
+    },
+    onComplete() {
+      gsap.to(loader, {
+        yPercent: -100,
+        duration: 0.9,
+        ease: "power4.inOut",
+        onComplete: () => {
+          loader.style.display = "none";
+          introTl.play();
+        },
+      });
+    },
+  });
+
+  /* ---------- Hero intro ---------- */
+  // Split headline lines into characters for a staggered rise.
+  document.querySelectorAll("#heroTitle .line").forEach((line) => {
+    const text = line.textContent;
+    line.textContent = "";
+    [...text].forEach((ch) => {
+      const span = document.createElement("span");
+      span.className = "char";
+      span.innerHTML = ch === " " ? "&nbsp;" : ch;
+      line.appendChild(span);
+    });
+  });
+
+  if (reduceMotion) {
+    introTl.set("#heroTitle .char, .hero [data-reveal]", { opacity: 1, y: 0 });
+  } else {
+    gsap.set("#heroTitle .char", { yPercent: 120, rotate: 4 });
+    introTl
+      .to("#heroTitle .char", {
+        yPercent: 0,
+        rotate: 0,
+        duration: 1.1,
+        ease: "power4.out",
+        stagger: 0.035,
+      })
+      .to(
+        ".hero [data-reveal]",
+        { opacity: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: 0.12 },
+        "-=0.7"
+      );
   }
-  if (priceEl) {
-    priceEl.style.opacity = '0';
-    setTimeout(() => { priceEl.textContent = data.price; priceEl.style.opacity = '1'; }, 190);
+
+  /* ---------- Scroll reveals ---------- */
+  if (!reduceMotion) {
+    document.querySelectorAll("[data-reveal]").forEach((el) => {
+      if (el.closest(".hero")) return; // handled by intro timeline
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: { trigger: el, start: "top 88%" },
+      });
+    });
+  } else {
+    gsap.set("[data-reveal]", { opacity: 1, y: 0 });
   }
-}
 
-if (document.querySelector('.ingredient-card')) {
-  setTimeout(initHeroCards, 100);
-}
+  /* ---------- Stat counters ---------- */
+  document.querySelectorAll(".stat-num").forEach((el) => {
+    const target = parseFloat(el.dataset.count);
+    const prefix = el.dataset.prefix || "";
+    const suffix = el.dataset.suffix || "";
+    const obj = { v: 0 };
+    gsap.to(obj, {
+      v: target,
+      duration: reduceMotion ? 0.01 : 2,
+      ease: "power2.out",
+      scrollTrigger: { trigger: el, start: "top 88%" },
+      onUpdate() {
+        el.textContent = prefix + Math.round(obj.v).toLocaleString() + suffix;
+      },
+    });
+  });
 
-/* ─── Contact Form ─── */
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
+  /* ---------- Horizontal process section ---------- */
+  const track = document.getElementById("processTrack");
+  const pin = document.getElementById("processPin");
+  if (track && !reduceMotion) {
+    const getDistance = () => Math.max(0, track.scrollWidth - pin.clientWidth + 96);
+    gsap.to(track, {
+      x: () => -getDistance(),
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#process",
+        start: "top top",
+        end: () => "+=" + (getDistance() + window.innerHeight * 0.4),
+        pin: true,
+        scrub: 1,
+        invalidateOnRefresh: true,
+      },
+    });
+  }
+
+  /* ---------- Nav: hide on scroll down ---------- */
+  const nav = document.getElementById("nav");
+  const navLinks = document.getElementById("navLinks");
+  const burger = document.getElementById("navBurger");
+  let lastY = 0;
+
+  ScrollTrigger.create({
+    start: 0,
+    end: "max",
+    onUpdate(self) {
+      const y = self.scroll();
+      if (y > lastY && y > 220 && !navLinks.classList.contains("is-open")) {
+        nav.classList.add("nav-hidden");
+      } else {
+        nav.classList.remove("nav-hidden");
+      }
+      lastY = y;
+    },
+  });
+
+  burger.addEventListener("click", () => {
+    navLinks.classList.toggle("is-open");
+    burger.classList.toggle("is-open");
+  });
+
+  /* ---------- Service card spotlight follows mouse ---------- */
+  document.querySelectorAll(".service-card").forEach((card) => {
+    card.addEventListener("pointermove", (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", ((e.clientX - r.left) / r.width) * 100 + "%");
+      card.style.setProperty("--my", ((e.clientY - r.top) / r.height) * 100 + "%");
+    });
+  });
+
+  /* ---------- Magnetic buttons ---------- */
+  if (!reduceMotion && window.matchMedia("(hover: hover)").matches) {
+    document.querySelectorAll("[data-magnetic]").forEach((el) => {
+      const strength = 0.3;
+      el.addEventListener("pointermove", (e) => {
+        const r = el.getBoundingClientRect();
+        gsap.to(el, {
+          x: (e.clientX - r.left - r.width / 2) * strength,
+          y: (e.clientY - r.top - r.height / 2) * strength,
+          duration: 0.4,
+          ease: "power3.out",
+        });
+      });
+      el.addEventListener("pointerleave", () => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.4)" });
+      });
+    });
+  }
+
+  /* ---------- Custom cursor ---------- */
+  const cursor = document.getElementById("cursor");
+  if (!reduceMotion && window.matchMedia("(hover: hover)").matches) {
+    const pos = { x: innerWidth / 2, y: innerHeight / 2 };
+    const target = { x: pos.x, y: pos.y };
+    window.addEventListener("pointermove", (e) => {
+      target.x = e.clientX;
+      target.y = e.clientY;
+    });
+    gsap.ticker.add(() => {
+      pos.x += (target.x - pos.x) * 0.2;
+      pos.y += (target.y - pos.y) * 0.2;
+      cursor.style.transform = `translate(${pos.x}px, ${pos.y}px) translate(-50%, -50%)`;
+    });
+    document.querySelectorAll("[data-cursor]").forEach((el) => {
+      el.addEventListener("pointerenter", () => cursor.classList.add("is-active"));
+      el.addEventListener("pointerleave", () => cursor.classList.remove("is-active"));
+    });
+  }
+
+  /* ---------- Contact form ---------- */
+  const form = document.getElementById("contactForm");
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const btn = contactForm.querySelector('.form-submit');
-    const original = btn.textContent;
-    btn.textContent = 'Message sent ✓';
-    btn.style.background = '#6B9E5A';
-    setTimeout(() => {
-      btn.textContent = original;
-      btn.style.background = '';
-      contactForm.reset();
-    }, 3000);
+    const name = form.elements.name.value.trim();
+    const phone = form.elements.phone.value.trim();
+    if (!name || !phone) {
+      gsap.fromTo(form, { x: -8 }, { x: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+      return;
+    }
+    // No backend in this static build — hook up your booking endpoint here.
+    document.getElementById("formSuccess").classList.add("is-visible");
+    form.querySelector('button[type="submit"]').disabled = true;
   });
-}
+})();

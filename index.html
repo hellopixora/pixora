@@ -3,283 +3,357 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pixora Cafe 1 — Specialty Coffee</title>
-  <meta name="description" content="Pixora Cafe 1 — single origin beans, cold foam crafted daily. Order your perfect latte." />
+  <title>Prime Plumbing LA — Plumbing, Perfected. | 24/7 Los Angeles Plumbers</title>
+  <meta name="description" content="Award-winning plumbing service for Los Angeles homes and businesses. 24/7 emergency response, drain cleaning, water heaters, leak detection, repiping and sewer repair." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<!-- Page Loader -->
-<div class="page-loader" id="pageLoader">
-  <span class="loader-wordmark">Pixora Cafe 1</span>
-</div>
+  <!-- ===== Loader ===== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <div class="loader-mark">
+        <svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2.7c3.6 4.6 6.3 8 6.3 11.4a6.3 6.3 0 1 1-12.6 0C5.7 10.7 8.4 7.3 12 2.7Z"/>
+        </svg>
+      </div>
+      <div class="loader-bar"><span id="loaderFill"></span></div>
+      <div class="loader-count"><span id="loaderCount">0</span>%</div>
+      <div class="loader-label">Pressurizing the system…</div>
+    </div>
+  </div>
 
-<!-- Custom cursor handled by JS -->
+  <!-- ===== 3D Canvas ===== -->
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
 
-<!-- Navigation -->
-<nav class="nav" id="nav">
-  <a href="index.html" class="nav-brand">Pixora <span>Cafe</span> 1</a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="menu.html">Menu</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li class="nav-cta"><a href="order.html">Order Online</a></li>
-  </ul>
-  <div class="nav-right">
-    <button class="cart-btn" aria-label="Cart">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-        <path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.66a2 2 0 001.99-1.61L23 6H6"/>
+  <!-- ===== Custom cursor ===== -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <!-- ===== Navigation ===== -->
+  <header class="nav" id="nav">
+    <a class="nav-logo" href="#top" data-cursor>
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M12 2.7c3.6 4.6 6.3 8 6.3 11.4a6.3 6.3 0 1 1-12.6 0C5.7 10.7 8.4 7.3 12 2.7Z"/>
       </svg>
-    </button>
-    <button class="hamburger" id="hamburger" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
+      <span>PRIME<em>PLUMBING</em></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#services" data-cursor>Services</a>
+      <a href="#process" data-cursor>Process</a>
+      <a href="#why" data-cursor>Why Us</a>
+      <a href="#reviews" data-cursor>Reviews</a>
+      <a href="#contact" data-cursor>Contact</a>
+    </nav>
+    <div class="nav-right">
+      <a class="nav-phone" href="tel:+13235550119" data-cursor>
+        <span class="pulse-dot"></span>(323) 555-0119
+      </a>
+      <button class="nav-burger" id="navBurger" aria-label="Menu"><span></span><span></span></button>
+    </div>
+  </header>
 
-<!-- Mobile Overlay -->
-<div class="nav-overlay" id="navOverlay">
-  <button class="nav-overlay-close" aria-label="Close menu">✕</button>
-  <ul class="nav-overlay-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="menu.html">Menu</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li class="nav-cta-overlay"><a href="order.html">Order Online</a></li>
-  </ul>
-</div>
+  <main id="top">
 
-<!-- ══════════════════════════════════
-     HERO
-══════════════════════════════════ -->
-<section class="hero">
-  <div class="hero-stage">
-
-    <!-- Ingredient cards — z-index 5, always behind drink -->
-    <div class="ingredient-cards-container">
-
-      <div class="ingredient-card card-caramel state-behind" data-flavor="caramel">
-        <div class="card-emoji">🍮</div>
-        <div class="card-label">Caramel</div>
-        <div class="card-sub">Syrup</div>
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="hero">
+      <div class="hero-inner">
+        <p class="hero-eyebrow" data-reveal>
+          <span class="badge-ring"></span> Licensed · Bonded · Insured — Los Angeles, CA
+        </p>
+        <h1 class="hero-title" id="heroTitle">
+          <span class="line">Plumbing,</span>
+          <span class="line accent">Perfected.</span>
+        </h1>
+        <p class="hero-sub" data-reveal>
+          LA's premier plumbing crew. 24/7 emergency response, upfront flat-rate
+          pricing, and craftsmanship that holds under pressure — guaranteed.
+        </p>
+        <div class="hero-cta" data-reveal>
+          <a href="#contact" class="btn btn-primary" data-cursor data-magnetic>
+            Book a Service
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="tel:+13235550119" class="btn btn-ghost" data-cursor data-magnetic>
+            <span class="pulse-dot"></span> 24/7 Emergency Line
+          </a>
+        </div>
+        <div class="hero-meta" data-reveal>
+          <div><strong>4.9★</strong><span>500+ Google reviews</span></div>
+          <div class="meta-divider"></div>
+          <div><strong>45 min</strong><span>avg. emergency response</span></div>
+          <div class="meta-divider"></div>
+          <div><strong>CA Lic. #1234567</strong><span>fully insured</span></div>
+        </div>
       </div>
-
-      <div class="ingredient-card card-vanilla state-behind" data-flavor="vanilla">
-        <div class="card-emoji">🌿</div>
-        <div class="card-label">Vanilla</div>
-        <div class="card-sub">Bean</div>
+      <div class="scroll-hint" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="scroll-pipe"><i></i></div>
       </div>
+    </section>
 
-      <div class="ingredient-card card-hazelnut state-behind" data-flavor="hazelnut">
-        <div class="card-emoji">🌰</div>
-        <div class="card-label">Hazelnut</div>
-        <div class="card-sub">Roasted</div>
+    <!-- ===== Marquee ===== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Emergency Repairs</span><i>●</i><span>Hydro Jetting</span><i>●</i>
+        <span>Water Heaters</span><i>●</i><span>Leak Detection</span><i>●</i>
+        <span>Repiping</span><i>●</i><span>Trenchless Sewer</span><i>●</i>
+        <span>Emergency Repairs</span><i>●</i><span>Hydro Jetting</span><i>●</i>
+        <span>Water Heaters</span><i>●</i><span>Leak Detection</span><i>●</i>
+        <span>Repiping</span><i>●</i><span>Trenchless Sewer</span><i>●</i>
       </div>
-
-      <div class="ingredient-card card-cinnamon state-behind" data-flavor="cinnamon">
-        <div class="card-emoji">✨</div>
-        <div class="card-label">Cinnamon</div>
-        <div class="card-sub">Spice</div>
-      </div>
-
     </div>
 
-    <!-- Coffee grounds mound — z-index 3 -->
-    <div class="hero-mound"></div>
+    <!-- ===== Stats ===== -->
+    <section class="stats" id="stats">
+      <div class="stat" data-reveal>
+        <span class="stat-num" data-count="15" data-suffix="+">0</span>
+        <span class="stat-label">Years serving LA</span>
+      </div>
+      <div class="stat" data-reveal>
+        <span class="stat-num" data-count="12000" data-suffix="+">0</span>
+        <span class="stat-label">Jobs completed</span>
+      </div>
+      <div class="stat" data-reveal>
+        <span class="stat-num" data-count="45" data-prefix="~" data-suffix="m">0</span>
+        <span class="stat-label">Emergency response</span>
+      </div>
+      <div class="stat" data-reveal>
+        <span class="stat-num" data-count="100" data-suffix="%">0</span>
+        <span class="stat-label">Workmanship guarantee</span>
+      </div>
+    </section>
 
-    <!-- ═══════════════════════════
-         THE DRINK — z-index 10
-         Fixed anchor. Never moves.
-    ════════════════════════════ -->
-    <div class="drink-anchor" id="drinkAnchor">
-      <div class="coffee-cup">
-
-        <!-- Straw -->
-        <div class="cup-straw"></div>
-
-        <!-- Dome lid -->
-        <div class="cup-lid-inner"></div>
-        <div class="cup-lid-outer">
-          <div class="cup-lid-tab"></div>
-        </div>
-
-        <!-- Cup body with drink layers -->
-        <div class="cup-body">
-          <!-- Cold foam top -->
-          <div class="cup-foam">
-            <div class="cup-foam-bubbles"></div>
+    <!-- ===== Services ===== -->
+    <section class="services" id="services">
+      <div class="section-head">
+        <p class="section-eyebrow" data-reveal>What we do</p>
+        <h2 class="section-title" data-reveal>Every pipe. Every problem.<br /><span class="accent">Handled.</span></h2>
+      </div>
+      <div class="services-grid">
+        <article class="service-card" data-reveal data-cursor>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2 4.5 13.5H11L9 22l9.5-12H12L13 2Z"/></svg>
           </div>
-          <!-- Espresso shot layer -->
-          <div class="cup-espresso"></div>
-          <!-- Iced milk / latte body -->
-          <div class="cup-milk">
-            <div class="ice-cube ice-1"></div>
-            <div class="ice-cube ice-2"></div>
-            <div class="ice-cube ice-3"></div>
-            <div class="ice-cube ice-4"></div>
+          <h3>24/7 Emergency Plumbing</h3>
+          <p>Burst pipe at 3 AM? Our trucks are stocked and rolling around the clock — most LA calls reached within 45 minutes.</p>
+          <span class="service-num">01</span>
+        </article>
+        <article class="service-card" data-reveal data-cursor>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12c3-6 6 6 9 0s6 6 9 0M3 18c3-6 6 6 9 0s6 6 9 0"/></svg>
           </div>
-          <!-- Concentrated bottom layer -->
-          <div class="cup-bottom-layer"></div>
-        </div>
-
-        <!-- Glass reflections -->
-        <div class="cup-glare"></div>
-        <div class="cup-glare-r"></div>
-
+          <h3>Drain Cleaning & Hydro Jetting</h3>
+          <p>From slow sinks to stubborn main-line clogs, we scour pipes clean with camera-guided 4,000 PSI hydro jetting.</p>
+          <span class="service-num">02</span>
+        </article>
+        <article class="service-card" data-reveal data-cursor>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="3" width="10" height="16" rx="3"/><path d="M10 19v2m4-2v2M10 8h4"/></svg>
+          </div>
+          <h3>Water Heaters & Tankless</h3>
+          <p>Same-day repair, replacement and tankless upgrades — sized right, installed to code, and backed in writing.</p>
+          <span class="service-num">03</span>
+        </article>
+        <article class="service-card" data-reveal data-cursor>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          </div>
+          <h3>Leak Detection & Repair</h3>
+          <p>Acoustic and thermal-imaging detection pinpoints hidden slab and wall leaks — no exploratory demolition.</p>
+          <span class="service-num">04</span>
+        </article>
+        <article class="service-card" data-reveal data-cursor>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20V9a5 5 0 0 1 5-5h11M16 0v8M20 4h-8"/></svg>
+          </div>
+          <h3>Repiping & Pipe Replacement</h3>
+          <p>Whole-home copper and PEX repipes for aging galvanized systems — clean cuts, fast turnarounds, lasting pressure.</p>
+          <span class="service-num">05</span>
+        </article>
+        <article class="service-card" data-reveal data-cursor>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 17c4 0 4-4 8-4s4 4 8 4 4-4 4-4M3 8h18M7 8V5m10 3V5"/></svg>
+          </div>
+          <h3>Sewer Line & Trenchless Repair</h3>
+          <p>Camera inspections, spot repairs and trenchless replacement that saves your driveway, lawn and landscaping.</p>
+          <span class="service-num">06</span>
+        </article>
       </div>
-    </div>
-    <!-- end drink -->
+    </section>
 
-  </div>
-  <!-- end hero-stage -->
-
-  <!-- Drink info — updates on card selection -->
-  <div class="hero-drink-info">
-    <div class="drink-name-display">Caramel Cold Foam Latte</div>
-    <div class="drink-price-pill">
-      <span class="price-value">$8.50</span>
-      <svg class="price-cart-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-        <path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.66a2 2 0 001.99-1.61L23 6H6"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- Bottom headline -->
-  <h1 class="hero-headline">Choose your perfect latte</h1>
-</section>
-
-<!-- ══════════════════════════════════
-     SIGNATURE DRINKS
-══════════════════════════════════ -->
-<section class="signature-section">
-  <div class="section-wrap">
-    <p class="section-label reveal">Featured</p>
-    <h2 class="section-title reveal">Signature drinks.</h2>
-
-    <div class="drinks-row">
-
-      <div class="drink-card reveal">
-        <div class="drink-card-icon">☕</div>
-        <div class="drink-card-name">Midnight Espresso</div>
-        <p class="drink-card-desc">Triple-pulled Ethiopian single origin over cold foam. Dense, dark, unforgettable.</p>
-        <div class="drink-card-footer">
-          <span class="drink-card-price">$7.50</span>
-          <a href="menu.html" class="drink-card-link">View Menu →</a>
+    <!-- ===== Process (horizontal scroll) ===== -->
+    <section class="process" id="process">
+      <div class="process-pin" id="processPin">
+        <div class="section-head process-head">
+          <p class="section-eyebrow">How it works</p>
+          <h2 class="section-title">Fixed in four moves.</h2>
+        </div>
+        <div class="process-track" id="processTrack">
+          <article class="process-step">
+            <span class="step-num">01</span>
+            <h3>Call or book online</h3>
+            <p>Tell us what's leaking, clogged or cold. Real humans answer 24/7 — no phone trees, no callbacks.</p>
+          </article>
+          <article class="process-step">
+            <span class="step-num">02</span>
+            <h3>Diagnose & flat quote</h3>
+            <p>We inspect, explain the issue in plain English, and quote a flat price before any work begins.</p>
+          </article>
+          <article class="process-step">
+            <span class="step-num">03</span>
+            <h3>Fix it right</h3>
+            <p>Licensed techs, stocked trucks, code-compliant work. Most jobs are finished the very same visit.</p>
+          </article>
+          <article class="process-step">
+            <span class="step-num">04</span>
+            <h3>Clean up & guarantee</h3>
+            <p>We leave your home cleaner than we found it and back every job with a written workmanship guarantee.</p>
+          </article>
         </div>
       </div>
+    </section>
 
-      <div class="drink-card reveal reveal-delay-1">
-        <div class="drink-card-icon">🧋</div>
-        <div class="drink-card-name">Cloud Cold Brew</div>
-        <p class="drink-card-desc">24-hour cold brew steeped in-house, crowned with vanilla sweet cream cloud.</p>
-        <div class="drink-card-footer">
-          <span class="drink-card-price">$8.00</span>
-          <a href="menu.html" class="drink-card-link">View Menu →</a>
+    <!-- ===== Why us ===== -->
+    <section class="why" id="why">
+      <div class="section-head">
+        <p class="section-eyebrow" data-reveal>Why Prime</p>
+        <h2 class="section-title" data-reveal>The crew LA calls <span class="accent">first.</span></h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-item" data-reveal>
+          <h3>Upfront, flat-rate pricing</h3>
+          <p>The price we quote is the price you pay. No hourly surprises, no hidden fees, ever.</p>
+        </div>
+        <div class="why-item" data-reveal>
+          <h3>Background-checked techs</h3>
+          <p>Every Prime plumber is licensed, drug-tested and background-checked — and shows up in uniform, on time.</p>
+        </div>
+        <div class="why-item" data-reveal>
+          <h3>Stocked trucks, same-day fixes</h3>
+          <p>Our trucks carry the parts for 90% of repairs, so most problems are solved in a single visit.</p>
+        </div>
+        <div class="why-item" data-reveal>
+          <h3>Respect for your home</h3>
+          <p>Shoe covers, drop cloths and a full cleanup are standard on every job — big or small.</p>
         </div>
       </div>
+    </section>
 
-      <div class="drink-card reveal reveal-delay-2">
-        <div class="drink-card-icon">🌙</div>
-        <div class="drink-card-name">Dark Caramel Frost</div>
-        <p class="drink-card-desc">Ristretto shots over ice, salted caramel drizzle, cascading cold foam top.</p>
-        <div class="drink-card-footer">
-          <span class="drink-card-price">$9.00</span>
-          <a href="menu.html" class="drink-card-link">View Menu →</a>
-        </div>
+    <!-- ===== Reviews ===== -->
+    <section class="reviews" id="reviews">
+      <div class="section-head">
+        <p class="section-eyebrow" data-reveal>Reviews</p>
+        <h2 class="section-title" data-reveal>Word travels through <span class="accent">the pipes.</span></h2>
       </div>
+      <div class="reviews-grid">
+        <figure class="review-card" data-reveal data-cursor>
+          <div class="review-stars">★★★★★</div>
+          <blockquote>"Slab leak on a Sunday night. They found it with a listening device, fixed it by noon Monday, and the quote never changed. Unreal service."</blockquote>
+          <figcaption><strong>Maria G.</strong><span>Silver Lake</span></figcaption>
+        </figure>
+        <figure class="review-card" data-reveal data-cursor>
+          <div class="review-stars">★★★★★</div>
+          <blockquote>"Third plumber I called was the only one who answered at 2 AM. Burst pipe contained in under an hour. Prime is saved in my phone now."</blockquote>
+          <figcaption><strong>Daniel R.</strong><span>Echo Park</span></figcaption>
+        </figure>
+        <figure class="review-card" data-reveal data-cursor>
+          <div class="review-stars">★★★★★</div>
+          <blockquote>"Full repipe of our 1950s bungalow in two days. Walls patched, floors spotless, water pressure like a hotel. Worth every penny."</blockquote>
+          <figcaption><strong>Aisha T.</strong><span>Pasadena</span></figcaption>
+        </figure>
+      </div>
+    </section>
 
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════
-     BRAND MOMENT
-══════════════════════════════════ -->
-<section class="brand-moment">
-  <div class="brand-moment-inner">
-    <div class="brand-quote reveal">
-      "Every cup<br><em>tells a story.</em>"
-    </div>
-    <div class="brand-stats">
-      <div class="stat-pill reveal">Single Origin Beans</div>
-      <div class="stat-pill reveal reveal-delay-1">Cold Foam Crafted Daily</div>
-      <div class="stat-pill reveal reveal-delay-2">Est. 2024</div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════
-     ORDER CTA
-══════════════════════════════════ -->
-<section class="order-cta-banner">
-  <h2 class="reveal">Ready for your next favorite coffee?</h2>
-  <p class="reveal">Order now on UberEats or DoorDash.</p>
-  <div class="cta-btn-group reveal">
-    <a href="#" class="btn-dark">UberEats →</a>
-    <a href="#" class="btn-dark">DoorDash →</a>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════
-     FOOTER
-══════════════════════════════════ -->
-<footer>
-  <div class="footer-grid">
-    <div>
-      <div class="footer-brand-name">Pixora Cafe 1</div>
-      <p class="footer-tagline">Single origin. Cold foam crafted daily.<br>A coffee ritual built for you.</p>
-      <div class="footer-social">
-        <a href="#" aria-label="Instagram">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/>
-            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
-          </svg>
+    <!-- ===== Emergency band ===== -->
+    <section class="emergency" data-reveal>
+      <div class="emergency-inner">
+        <div>
+          <p class="emergency-kicker"><span class="pulse-dot"></span> Live dispatch · 24/7/365</p>
+          <h2>Water where it shouldn't be?</h2>
+        </div>
+        <a href="tel:+13235550119" class="btn btn-emergency" data-cursor data-magnetic>
+          Call (323) 555-0119 now
         </a>
-        <a href="#" aria-label="TikTok">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
-          </svg>
-        </a>
-        <a href="#" aria-label="X">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round">
-            <path d="M4 4l16 16M20 4L4 20"/>
-          </svg>
-        </a>
       </div>
-    </div>
+    </section>
 
-    <div>
-      <div class="footer-col-title">Quick Links</div>
-      <ul class="footer-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="order.html">Order Online</a></li>
-      </ul>
-    </div>
+    <!-- ===== Contact ===== -->
+    <section class="contact" id="contact">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p class="section-eyebrow" data-reveal>Get in touch</p>
+          <h2 class="section-title" data-reveal>Book your <span class="accent">service.</span></h2>
+          <p class="contact-blurb" data-reveal>
+            Tell us what's going on and we'll confirm your appointment within
+            minutes — usually with same-day availability across greater Los Angeles.
+          </p>
+          <ul class="contact-list" data-reveal>
+            <li><strong>Phone</strong><a href="tel:+13235550119" data-cursor>(323) 555-0119</a></li>
+            <li><strong>Email</strong><a href="mailto:hello@primeplumbingla.com" data-cursor>hello@primeplumbingla.com</a></li>
+            <li><strong>Hours</strong><span>24/7 emergency · Office Mon–Sat 7a–7p</span></li>
+            <li><strong>Service area</strong><span>Los Angeles · Pasadena · Glendale · Burbank · Santa Monica · Culver City</span></li>
+          </ul>
+        </div>
+        <form class="contact-form" id="contactForm" data-reveal novalidate>
+          <div class="form-row">
+            <label>Name<input type="text" name="name" placeholder="Your name" required /></label>
+            <label>Phone<input type="tel" name="phone" placeholder="(323) 555-0123" required /></label>
+          </div>
+          <label>Service needed
+            <select name="service">
+              <option>Emergency repair</option>
+              <option>Drain cleaning / hydro jetting</option>
+              <option>Water heater</option>
+              <option>Leak detection</option>
+              <option>Repiping</option>
+              <option>Sewer line</option>
+              <option>Something else</option>
+            </select>
+          </label>
+          <label>What's happening?
+            <textarea name="message" rows="4" placeholder="Describe the issue…"></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary btn-full" data-cursor data-magnetic>
+            Request appointment
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <p class="form-success" id="formSuccess">✓ Request received — we'll call you within 15 minutes.</p>
+        </form>
+      </div>
+    </section>
+  </main>
 
-    <div>
-      <div class="footer-col-title">Hours &amp; Location</div>
-      <div class="footer-hours-row"><span>Mon – Fri</span><span>7am – 7pm</span></div>
-      <div class="footer-hours-row"><span>Sat – Sun</span><span>8am – 6pm</span></div>
-      <p class="footer-address">
-        123 Coffee Lane<br>
-        New York, NY 10001<br>
-        hello@pixoracafe.com<br>
-        (000) 000-0000
-      </p>
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <a class="nav-logo" href="#top" data-cursor>
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M12 2.7c3.6 4.6 6.3 8 6.3 11.4a6.3 6.3 0 1 1-12.6 0C5.7 10.7 8.4 7.3 12 2.7Z"/>
+        </svg>
+        <span>PRIME<em>PLUMBING</em></span>
+      </a>
+      <p>CA Lic. #1234567 · Licensed, bonded & insured · Serving greater Los Angeles since 2011</p>
+      <p class="footer-fine">© 2026 Prime Plumbing LA. All rights reserved.</p>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copyright">© 2025 Pixora Cafe 1. All rights reserved.</span>
-    <span class="footer-copyright">Crafted with care.</span>
-  </div>
-</footer>
+  </footer>
 
-<script src="main.js"></script>
+  <!-- ===== Libraries ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="scene.js"></script>
+  <script src="main.js" defer></script>
 </body>
 </html>
