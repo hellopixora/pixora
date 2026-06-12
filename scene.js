@@ -25,6 +25,16 @@
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.15;
 
+  // Color space + lighting-units shims so the scene looks the same on
+  // r149 (classic build) and newer releases
+  if ("outputColorSpace" in renderer && THREE.SRGBColorSpace) {
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+  } else if (THREE.sRGBEncoding !== undefined) {
+    renderer.outputEncoding = THREE.sRGBEncoding;
+  }
+  if ("useLegacyLights" in renderer) renderer.useLegacyLights = false;
+  else renderer.physicallyCorrectLights = true;
+
   var scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(0x050d1a, 0.038);
 

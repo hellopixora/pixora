@@ -319,6 +319,14 @@ main, .footer { position: relative; z-index: 3; }
 }
 .hero-title .line { display: block; overflow: hidden; }
 .hero-title .char { display: inline-block; will-change: transform; }
+/* background-clip:text fails on transformed child spans, so once the
+   headline is split into chars each char carries its own gradient */
+.hero-title .accent .char {
+  background: linear-gradient(160deg, var(--cyan), var(--blue) 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 .hero-sub {
   max-width: 520px;
